@@ -1,0 +1,107 @@
+{% extends "base-analysis.html" %}
+
+{% block content %}
+    <script type='text/javascript'>
+        function alertme(){
+            var data = new FormData($('form').get(0));
+
+            // show the intersections
+            $('#spanLoading').show();
+            $('#divAfterFile').hide();
+
+            $.ajax({
+                url: 'file',
+                type: 'POST',
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+            })
+            .done(function(data) {
+                $('#id_select_your_intersection').empty();
+                
+                for(var i = 0; i < data.intersections.length; i++){
+                    $('#id_select_your_intersection').append($('<option>', {
+                        value: data.intersections[i],
+                        text: data.intersections[i]
+                    }));
+                }
+            
+                // hide the intersections
+                $('#spanLoading').hide();
+                $('#divAfterFile').show();
+            });
+        }
+    </script>
+	<h2>Crash Analysis</h2>
+	Please see the "Home" page for program overview and assumptions.
+	<br>The crash file must be in .csv format.
+	<br>
+	<br>
+    <form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<input type="hidden" name="csrfmiddlewaretoken" value="JsTvtxo88BhQCTg4gq07lRaN3jOmhk6EI3RdZ2MAsRwpxDEmEXRUUSjNRn7jZjKE">
+		<li>
+          <label for="id_select_your_state">Select your state:</label>
+          <select name="select_your_state" id="id_select_your_state">
+           <option value="alaska">Alaska</option>
+           <option value="colorado">Colorado</option>           
+           <option value="florida">Florida</option>
+           <option value="nebraska">Nebraska</option>
+           <option value="nevada">Nevada</option>
+           <option value="newyork">New York</option>
+           <option value="washington">Washington</option>
+        </select></li>
+        <li>
+            <label for="id_choose_your_crash_file">Choose your crash file:</label>
+            <input type="file" name="choose_your_crash_file" required="" id="id_choose_your_crash_file" onchange="alertme();">
+            <span id='spanLoading' style='display: none' >loading...</span>
+        </li>
+        <div id='divAfterFile' style='display: none;'>
+            <li>
+                <label for="id_select_your_intersection">Select your intersection:</label>
+                  <select name="select_your_intersection" id="id_select_your_intersection">
+                </select>
+            </li>
+            <li>
+                <label for="id_select_how_many_diagrams_to_create">Select how many diagrams to create:</label>
+                <input type="number" name="select_how_many_diagrams_to_create" required="" id="id_select_how_many_diagrams_to_create">
+            </li>
+            <li>
+              <label for="id_sort_by">Sort by:</label>
+                <select name="sort_by" id="id_sort_by">
+                 <option value="total crashes">Total Crashes</option>
+                 <option value="fatal crashes">Fatal Crashes (K)</option>
+                 <option value="fatal and serious injury crashes">Fatal and Serious Injury Crashes (K+A)</option>
+                 <option value="fatal and all injury crashes">Fatal and All Injury Crashes (K+A+B+C)</option>
+                </select>
+            </li>
+            <li>
+              <label for="id_ped_bike_filter">Ped bike filter:</label>
+              <select name="ped_bike_filter" id="id_ped_bike_filter">
+                <option value="no filter">No Filter</option>
+                <option value="pedestrian and bicyclist crashes only">Pedestrian and Bicyclist Crashes Only</option>
+              </select>
+            </li>
+            <br>
+            <button class="btn btn-outline-info" type="submit">Create Collision Diagrams</button>
+        </div>
+        <!-- <h1>todays date is {{ date }}</h1>  -->
+    </form>
+
+	<small class="text-muted">Having trouble? Please email Sam Klump at samuel.klump@hdrinc.com.</small>
+	<br>
+	<br>
+	{{ total_accounted_for}}
+	<!-- <br>
+	{{ fi_accounted_for}} -->
+	<p>
+	<h5>Legend</h5>
+	<p>A red square in the plots indicates an 'other' crash movement, which is all crash movements
+	that are not left turns, right turns, thru movements, or 'miscellaneous actions'. A blue circle
+	indicates the crash movement was a 'miscellanous action'.
+	<br>
+	<p>{{ misc_action}}
+
+{% endblock content %}
+
