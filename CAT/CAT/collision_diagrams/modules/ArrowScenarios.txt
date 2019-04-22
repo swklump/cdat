@@ -1,0 +1,9 @@
+Scenario 1: ped/bike
+Scenario 2: Misc action
+Scenario 3: single vehicle crash
+Scenario 4: same direction
+Scenario 5: both thru's
+Scenario 6: both lefts
+Scenario 7: one thru one left
+Scenario 8: one thru one right
+Scenario 9: other
