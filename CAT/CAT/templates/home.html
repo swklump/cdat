@@ -1,0 +1,38 @@
+{% extends "base-home.html" %}
+
+{% block content %}
+	<h2>Home</h2>
+	<p>Welcome to the HDR Collision Diagram Application Tool (CDAT) for state DOT data sets!</p>
+	<h6>Introduction</h6>
+	This application tool automatically generates collision diagrams with a graphic of the vehicle movements
+	during the crash, crash type, crash severity, driver behavior, time of day, lighting conditions, weather, and
+	road surface conditions, all with the two step process of selecting your state and choosing your crash data
+	file. The graphics are created according to the unique combination of the vehicle direction and movements
+	(e.g. 'NBL/SBT') and sorted in descending order.</p>
+	<h6>Assumptions</h6>
+	<ul>
+		<li>This program does minimal processing, in that the text displayed for attributes such as driver behavior,
+			weather, etc. is exactly how it is displayed in the crash data set. This is in order to create transparency
+			for the end user and eliminate questionable assumptions. Only the time of day attribute has the text
+		altered from the crash data entries, and crash severity only slightly.</li>
+		<li>If the crash type does not seem to match the vehicle movements (e.g. 2 northbound thru vehicle arrows are shown, but the crash type says it's an angle crash), take a look at the data file. The crash type shown is simply the most common
+			value for that combination of vehicle movements and directions. There may be incongruent data in the file. A side benefit of this program is finding faulty data.</li>
+		<li>Crash severity and time of day will always sum up to the total number of crashes for each collision
+			diagram. However, driver behavior, lighting conditions, weather, and surface conditions only display the top
+		five most common values and may not sum to the total number of crashes for each collision diagram.</li>
+	</ul>
+	<br>
+	<h6>Notes</h6>
+	<ul>
+		<li>Some attribute value text may be cut off to eliminate the possibility of overlapping with the vehicle
+			arrows. The values are limited to 22 characters.</li>
+		<li>If a value is shown as 'NA', this represents empty cell entries. </li>
+		<li>Nevada crash data does not contain a road surface column.</li>
+	</ul>
+	<br>
+	<p>Ready to get started? Head on over to the Analysis page!
+{% endblock content %}
+
+
+
+
