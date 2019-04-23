@@ -57,12 +57,15 @@ def draw_arrows_ped_bike(fig_number,arrows,crash,state):
     import numpy as np
     from matplotlib.cbook import get_sample_data
     from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,AnnotationBbox)
+    import os
+    import matplotlib as mpl    
 
     plt.rcParams.update({'figure.max_open_warning': 0})
     plt.clf()
     plt.figure(fig_number)
 
     #Add image. https://stackoverflow.com/questions/3765056/combine-picture-and-plot-with-python-matplotlib
+    mpl.rcParams['examples.directory'] = os.getcwd() + "\CAT"    
     if 'bicyclist' in crash[0]:
         fn = get_sample_data("bike.png", asfileobj=False)
     else:
