@@ -2,7 +2,7 @@
 #'PlotText.py' file in respective state folder
 
 def show_plots(crash,fig_number,state,ped_bike_filter,diagram_total, diagram_fi, unknown_crashids, unknown_crashnum, zs, known_crashids):
-    print(crash[0])
+
     from .drawarrows import draw_arrows, draw_arrows_ped_bike
     #There are different scenarios in order to position arrows correctly in plot
     if 'unknown' in crash[0]:
