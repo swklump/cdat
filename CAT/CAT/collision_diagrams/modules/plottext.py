@@ -85,19 +85,20 @@ def plot_text(crash, state):
     #SURFACE CONDITIONS.......
     #Getting the most common crash surface condition for the vehicle movements
     #Only print if in crash data
-    if crash[1][n+5]:
-        surf = Counter(crash[1][n+5])
+    if state=='nevada':
+        pass
+           
+    else: 
+        surf = Counter(crash[1][n+6])
         surf = surf.most_common(5)
         surf_list = ['-','-','-','-','-',]
 
-        #Set up variables for surface text box
         i = 0
         while i < len(surf):
             if surf[i][0] == 'na':
                 surf_list[i] = surf[i][0].upper() + ' = ' + str(surf[i][1])
             else:
-                surf_list[i] = surf[i][0].title() + ' = ' + str(surf[i][1])
-            
+                surf_list[i] = surf[i][0].title() + ' = ' + str(surf[i][1])                
             i += 1
         
     #Textbox vehicle movements, crash type, and total crashes at top of diagram        
@@ -143,7 +144,7 @@ def plot_text(crash, state):
     plt.text(4.8, -1.35, light_list[4], horizontalalignment='right', fontsize=8)
     
     #Text box surface conditions in upper left hand corner. Only print if in crash data
-    if crash[1][n+5]:
+    if state not in ['nevada']:
         plt.text(-4.8, 2.2, 'Surface Conditions',horizontalalignment='left',weight = 'bold', fontsize=8)
         plt.text(-4.8, 1.95, surf_list[0], horizontalalignment='left', fontsize=8)
         plt.text(-4.8, 1.7, surf_list[1], horizontalalignment='left', fontsize=8)
