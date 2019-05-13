@@ -200,16 +200,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
     
     import csv
     from CAT.collision_diagrams.modules.importdata import prepare_lists #See module for comments
-    import os
-    import shutil
-
-    cwd = os.getcwd()
-    diagram_folder = cwd + '\diagram_prints'
-    if os.path.exists(diagram_folder):
-        shutil.rmtree(diagram_folder)
-    os.makedirs(diagram_folder)
-    
-    
+        
 ####SECTION 1....Put csv columns into lists (See 'ImportData.py' in 'Modules' folder
     #for additional comments)
 
@@ -495,7 +486,6 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(surf_conditions,'RD_SURF_SHORT_DESC',row,19)
                 prepare_lists(ped,'TOT_PED_CNT',row)
                 prepare_lists(bike,'TOT_PEDCYCL_CNT',row) 
-            print(crash_types)
 
     elif state == 'washington':
         with open(crash_filename, 'r', encoding="utf-8") as f:                           
@@ -516,7 +506,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(ped,'TZ Pedestrian Involved Indicator',row)
                 prepare_lists(bike,'TZ Pedacyclist Involved Indicator',row)
 
-
+    crash_ids = file_length
 #############SECTION 3....Data Manipulation (See 'EvaluateVehActions.py' in current folder and
     #'EvaluateVehActions_fuctions.py' in 'Modules' folder for additional comments)
     from CAT.collision_diagrams.modules.evaluatevehactions_functions import crash_dict, crash_characteristics,\
@@ -545,27 +535,9 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
     elif state == 'washington':
         from CAT.collision_diagrams.modules.evaluatevehactions_wa import veh_dir_act, crashes_list
 
+    veh_dir_act(veh1_dir_to,veh1_act,file_length,crash_dict,user_intersection,junction_type,street,cross_street) #Vehicle 1
 
-    ucrashes1 = veh_dir_act(veh1_dir_to,veh1_act,file_length,crash_dict,user_intersection,junction_type,street,cross_street) #Vehicle 1
-    unknown_crashes1 = ucrashes1[0]
-    known_crashes1 = ucrashes1[1]
-
-    ucrashes2 = veh_dir_act(veh2_dir_to,veh2_act,file_length,crash_dict,user_intersection,junction_type,street,cross_street) #Vehicle 2
-    unknown_crashes2 = ucrashes2[0]
-    known_crashes2 = ucrashes2[1]
-
-    for crash in unknown_crashes2[:]:
-        unknown_crashes1.append(crash)
-    unknown_crashes = list(dict.fromkeys(unknown_crashes1))
-
-    for crash in known_crashes2[:]:
-        known_crashes1.append(crash)
-    known_crashes = list(dict.fromkeys(known_crashes1))
-
-    k = ', '
-    unknown_crashes = k.join(unknown_crashes)
-    known_crashes = k.join(known_crashes)
-
+    veh_dir_act(veh2_dir_to,veh2_act,file_length,crash_dict,user_intersection,junction_type,street,cross_street) #Vehicle 2
 
     #Add crash characteristics to crash dictionary.
     #Comments in 'EvaluateVehActions_functions.py' in 'Modules' folder
@@ -574,7 +546,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
     #Create final list of crash characteristics
     if state in ['alaska','colorado','florida','nebraska', 'newyork','oregon','washington']:
         crash_characteristics(crash_severity, file_length, crash_dict, crash_types, crash_behaviors,
-            time_of_day, weather, light_conditions, surf_conditions)
+            time_of_day, weather, light_conditions, crash_ids, surf_conditions)
         veh_movements_unique_movements = unique_movements(crash_dict, file_length, ped, bike, surf_conditions)
         veh_movements = veh_movements_unique_movements[0]
         unique_movements = veh_movements_unique_movements[1]
@@ -584,14 +556,15 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
         cr_time = veh_movements_unique_movements[5]
         cr_weather = veh_movements_unique_movements[6]
         cr_light = veh_movements_unique_movements[7]
-        cr_surf = veh_movements_unique_movements[8]
+        cr_ids = veh_movements_unique_movements[8]
+        cr_surf = veh_movements_unique_movements[9]
         crashes_list = crashes_list(unique_movements, veh_movements, cr_severities, file_length,
-            cr_types, cr_behaviors, cr_time, cr_weather, cr_light, cr_surf, sort_by)
+            cr_types, cr_behaviors, cr_time, cr_weather, cr_light, cr_ids, cr_surf, sort_by)
 
     #Nevada doesn't record road surface condition
     elif state in ['nevada']:
         crash_characteristics(crash_severity, file_length, crash_dict, crash_types,
-            crash_behaviors, time_of_day, weather, light_conditions)
+            crash_behaviors, time_of_day, weather, light_conditions,crash_ids)
         veh_movements_unique_movements = unique_movements(crash_dict, file_length, ped, bike)
         veh_movements = veh_movements_unique_movements[0]
         unique_movements = veh_movements_unique_movements[1]
@@ -601,8 +574,9 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
         cr_time = veh_movements_unique_movements[5]
         cr_weather = veh_movements_unique_movements[6]
         cr_light = veh_movements_unique_movements[7]
+        cr_ids = veh_movements_unique_movements[8]
         crashes_list = crashes_list(unique_movements, veh_movements, cr_severities,
-            file_length, cr_types, cr_behaviors, cr_time, cr_weather, cr_light, sort_by)
+            file_length, cr_types, cr_behaviors, cr_time, cr_weather, cr_light, cr_ids, sort_by)
 
 ##############SECTION 4....Create and show plots
     #Everything runs from 'plot_loop' function in 'ShowPlots.py' file ('Modules' folder)
@@ -617,15 +591,44 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
 
     #See comments in the these files sequentially in the order stated at beginning of
     #Section 4
-    results = plot_loop(crashes_list,diagram_filter,state,ped_bike_filter, file_length)
+    import io
+    import zipfile
+    buf = io.BytesIO()
+    zs = zipfile.ZipFile(buf, mode='w')
+    
+    results = plot_loop(crashes_list,diagram_filter,state,ped_bike_filter, file_length, zs)
     total_accounted_for = results[0]
-    fi_accounted_for = results[1]
+    fi_accounted_for = results[1] 
+    unknown_crashids = results[2]
+    unknown_crashnum = results[3]   
+    known_crashids = results[4]
+    
+    total_accounted_for = "Total crashes accounted for in diagrams = " + str(total_accounted_for)
+    total_accounted_for = str.encode(total_accounted_for)
+    
+    unknown_crashnum = "\n Total unknown crashes = " + str(unknown_crashnum)
+    unknown_crashnum = str.encode(unknown_crashnum)
+    
+    zfm1 = zs.open('unknown_crashids.txt', 'w')
+    unk_ids = []
+    for crash in unknown_crashids:
+        unk_ids=str.encode(crash+', ')
+        zfm1.write(unk_ids)
+    zfm1.write(b"\n")
+    zfm1.write(unknown_crashnum)
+    zfm1.close()
+    
+    zfm2 = zs.open('total_accounted_for.txt', 'w')
+    zfm2.write(total_accounted_for)
+    zfm2.close()
+    
+    zfm3 = zs.open('known_crashids.txt', 'w')
+    k_ids = []
+    for crash in known_crashids:
+        k_ids=str.encode(crash+', ')
+        zfm3.write(k_ids)
+    zfm3.close()
+    
+    zs.close()
 
-    f = open("unknown_crashIDs.txt", "w")
-    f.write(unknown_crashes)
-
-    g = open("known_crashIDs.txt", "w")
-    g.write(known_crashes)
-
-
-    return total_accounted_for, fi_accounted_for, diagram_folder
+    return buf
