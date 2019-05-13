@@ -1,13 +1,12 @@
 #Draws arrows based on 'arrow_movements.py' files in 'Modules' folder and sets up plots
 #based on 'PlotText.py' file in respective state folder
 
-def draw_arrows(fig_number,arrows,crash,state,ped_bike_filter):
+def draw_arrows(fig_number,arrows,crash,state,ped_bike_filter,zs):
 
     from .plottext import plot_text
     import matplotlib.pyplot as plt
     #Need to make images with figure, write name as file-like object (stream)https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure
     import matplotlib.patches as patches
-    import os
 
     plt.rcParams.update({'figure.max_open_warning': 0})
     plt.clf()
@@ -37,10 +36,10 @@ def draw_arrows(fig_number,arrows,crash,state,ped_bike_filter):
         pass
     else:
         try:
-            cwd = os.getcwd()
-            diagram_folder = cwd + '\diagram_prints/'
-            fig_name = diagram_folder + str(fig_number) + '.png'
-            plt.savefig(fig_name)    
+            fig_name = str(fig_number) + '.png'
+            zfm = zs.open(fig_name, 'w')
+            plt.savefig(zfm, format='png')
+            zfm.close()   
         except RuntimeError:
             pass
         else:
@@ -49,7 +48,7 @@ def draw_arrows(fig_number,arrows,crash,state,ped_bike_filter):
 #Draws arrows based on 'arrow_movements.py' files in 'Modules' folder and sets up plots
 #based on 'PlotText.py' file in respective state folder, for peds and bikes
 
-def draw_arrows_ped_bike(fig_number,arrows,crash,state):
+def draw_arrows_ped_bike(fig_number,arrows,crash,state,zs):
 
     from .plottext import plot_text
     import matplotlib.pyplot as plt
@@ -57,19 +56,19 @@ def draw_arrows_ped_bike(fig_number,arrows,crash,state):
     import numpy as np
     from matplotlib.cbook import get_sample_data
     from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,AnnotationBbox)
+    import matplotlib as mpl
     import os
-    import matplotlib as mpl    
 
     plt.rcParams.update({'figure.max_open_warning': 0})
     plt.clf()
     plt.figure(fig_number)
 
     #Add image. https://stackoverflow.com/questions/3765056/combine-picture-and-plot-with-python-matplotlib
-    mpl.rcParams['examples.directory'] = os.getcwd() + "\CAT"    
+    mpl.rcParams['examples.directory'] = os.getcwd() + "\CAT"
     if 'bicyclist' in crash[0]:
-        fn = get_sample_data("bike.png", asfileobj=False)
+        fn = get_sample_data('bike.png', asfileobj=False)
     else:
-        fn = get_sample_data("pedestrian.png", asfileobj=False)
+        fn = get_sample_data('pedestrian.png', asfileobj=False)
     arr_img = plt.imread(fn, format='png')
     move_left = ['pedestrian/nbl','pedestrian/wbt','pedestrian/sbr',
                  'bicyclist/nbl','bicyclist/wbt','bicyclist/sbr']
@@ -87,9 +86,10 @@ def draw_arrows_ped_bike(fig_number,arrows,crash,state):
     plt.gca().add_patch(arrows[0])
     plt.gca().axes.get_xaxis().set_ticks([])
     plt.gca().axes.get_yaxis().set_ticks([])
-    plot_text(crash,state)   
-    cwd = os.getcwd()
-    diagram_folder = cwd + '\diagram_prints/'
-    fig_name = diagram_folder + str(fig_number) + '.png'
-    plt.savefig(fig_name) 
+    plot_text(crash,state) 
+    
+    fig_name = str(fig_number) + '.png'
+    zfm = zs.open(fig_name, 'w')
+    plt.savefig(zfm, format='png')   
+    zfm.close()
     
