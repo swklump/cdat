@@ -15,7 +15,7 @@ def crash_dict(file_length):
 #Surface conditions is optional
 def crash_characteristics(crash_severity, file_length, crash_dict, crash_types, \
                           crash_behaviors,time_of_day, weather, light_conditions,\
-                          surf_conditions=''):
+                          crash_ids, surf_conditions=''):
 
     i = 0
     while i < len(file_length):
@@ -25,6 +25,7 @@ def crash_characteristics(crash_severity, file_length, crash_dict, crash_types, 
         crash_dict["Crash"+str(i+1)].append(time_of_day[i])
         crash_dict["Crash"+str(i+1)].append(weather[i])
         crash_dict["Crash"+str(i+1)].append(light_conditions[i])
+        crash_dict["Crash"+str(i+1)].append(crash_ids[i])
         
         i += 1
 
@@ -46,10 +47,11 @@ def unique_movements(crash_dict, file_length, ped, bike, surf_conditions='',):
 
     #Alaska: ped = 'pedestrian', bike = 'bicyclist'
     #Colorado: ped = 'pedestrian', bike = 'bicycle'
-    #Florida: ped = >1, bike = >1
+    #Florida: ped = >=1, bike = >=1
     #Nebraska: ped = 'yes', bike = 'yes'
     #Nevada: ped = 'pedestrian', bike = 'bicyclist'
     #New York: ped = 'collision with pedestrian', bike = 'collision with bicyclist'
+    #Oregon: ped >= 1, bike = >= 1
     #Washington: ped = '1', bike = '1'
     
     ped_values = ['pedestrian','yes','collision with pedestrian','1']
@@ -77,7 +79,7 @@ def unique_movements(crash_dict, file_length, ped, bike, surf_conditions='',):
                 crash_dict["Crash"+str(i+1)][0] = 'pedestrian/' + temp_list[0]
         elif bike[i] in bike_values[:] or bike[i] in bike_numbers[:]:
             if 'wb' in temp_list[1]:
-                crash_dict["Crash"+str(i+1)][0] = 'pedestrian/' + temp_list[1]
+                crash_dict["Crash"+str(i+1)][0] = 'bicyclist/' + temp_list[1]
             else:
                 crash_dict["Crash"+str(i+1)][0] = 'bicyclist/' + temp_list[0]
         else:
@@ -99,6 +101,7 @@ def unique_movements(crash_dict, file_length, ped, bike, surf_conditions='',):
     cr_time = []
     cr_weather = []
     cr_light = []
+    cr_ids = []
     if surf_conditions: #Only if in crash data set
         cr_surf = []
     for sev in crash_dict.values():
@@ -108,13 +111,14 @@ def unique_movements(crash_dict, file_length, ped, bike, surf_conditions='',):
         cr_time.append(sev[4])
         cr_weather.append(sev[5])
         cr_light.append(sev[6])
+        cr_ids.append(sev[7])
         if surf_conditions: #Only if in crash data set
-            cr_surf.append(sev[7])
+            cr_surf.append(sev[8])
 
     if surf_conditions: #Only if in crash data set
         return(veh_movements, unique_movements, cr_severities, cr_types, cr_behaviors,
-               cr_time, cr_weather, cr_light,surf_conditions)
+               cr_time, cr_weather, cr_light, cr_ids, surf_conditions)
     else:
         return(veh_movements, unique_movements, cr_severities, cr_types, cr_behaviors,
-               cr_time, cr_weather, cr_light)
+               cr_time, cr_weather, cr_light, cr_ids)
     
