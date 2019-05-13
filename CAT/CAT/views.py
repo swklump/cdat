@@ -7,9 +7,6 @@ from CAT.collision_diagrams.collision_program import create_diagrams, get_inters
 import csv
 from django.http import StreamingHttpResponse, HttpResponse
 import zipfile
-import shutil
-import os
-import io
 
 
 def home(request):
@@ -17,18 +14,25 @@ def home(request):
  
 @csrf_exempt
 def file_changed(request):
-
+    
     if request.method == 'POST':
+        import os
+        import glob        
+        delete_files = glob.glob("*.csv")
+        for file in delete_files[:]:
+            os.remove(file)
         crash_file = request.FILES['choose_your_crash_file']
         state = request.POST['select_your_state']    
         fs = FileSystemStorage()
         fs.save(crash_file.name, crash_file)
+        
         #Need to add make this exception work
 
         intersections = get_intersections(state, crash_file.name)
         intersections = intersections[0]
-        intersections.insert(0, "All Intersections")
-        intersections.insert(0, "All Data")
+        intersections.insert(0, "_Segments Only")        
+        intersections.insert(0, "_Intersections Only")        
+        intersections.insert(0, "_All Data")
 
         return JsonResponse({'intersections': list(intersections)})
     
@@ -36,13 +40,6 @@ def file_changed(request):
         state = ''
 
 def analysis(request):
-    import os
-    import glob
-    delete_files = glob.glob("*.*")
-    delete_files.remove('db.sqlite3')
-    delete_files.remove('manage.py')
-    for file in delete_files[:]:
-        os.remove(file)
     
     if request.method == "POST":
 
@@ -66,9 +63,6 @@ def analysis(request):
 
         allinj_crashes = 0
         noreport_crashes = 0
-
-        total_accounted_for = 0
-        fi_accounted_for = 0
 
         from CAT.collision_diagrams.collision_program import create_diagrams
         from CAT.collision_diagrams.modules.importdata import prepare_lists
@@ -333,22 +327,17 @@ def analysis(request):
                 misc_action = "Miscellaneous action = 'backing', 'slowing', 'starting from parked position', \
                 'starting in traffic lane', 'stopped at signal or stop sign','stopped in traffic', or 'stopped in roadway'."
 
-        results = create_diagrams(state, crash_file.name, diagram_filter, user_intersection, sort_by, ped_bike_filter)
-        total_accounted_for = str(results[0]) + "% of total crashes are accounted for in the diagrams."
-        fi_accounted_for = str(results[1]) + "% of fatal and all injury crashes are accounted for in the diagrams."
-        diagram_folder = results[2]
-        
-        cwd = os.getcwd()
-        folder = shutil.make_archive('diagram_prints','zip',diagram_folder)
-        # zf = zipfile.ZipFile(diagram_folder,mode='w')
-        success = True
-        messages.success(request, f'Collision diagrams have been created!')
-        # rows = (["Row {}".format(idx), str(idx)] for idx in range(65536))
-            
-        # pseudo_buffer = Echo()
-        # writer = csv.writer(pseudo_buffer)
-        response = StreamingHttpResponse(open(folder, 'rb'),
-                                         content_type="application/zip")
+        buf = create_diagrams(state, crash_file.name, diagram_filter, user_intersection, sort_by, ped_bike_filter)
+        buf.seek(0)
+
+        # success = True
+        # messages.success(request, f'Collision diagrams have been created!')
+        import os
+        import glob        
+        delete_files = glob.glob("*.csv")
+        for file in delete_files[:]:
+            os.remove(file)    
+        response = StreamingHttpResponse(buf,content_type="application/zip")
         response['Content-Disposition'] = 'attachment; filename="diagrams.zip"'
         return response
         return redirect('http://127.0.0.1:8000/analysis/')
@@ -365,13 +354,12 @@ def analysis(request):
         noreport_crashes = ''
         misc_action = ''
         state = ''
-        total_accounted_for = ''
-        fi_accounted_for = ''
     
+
+        
     return render(request, 'analysis_form.html', {'state': state, 'misc_action':misc_action, 'total_crashes':total_crashes,
     'fatal_crashes':fatal_crashes, 'si_crashes':si_crashes, 'ev_crashes':ev_crashes, 'poss_crashes': poss_crashes,
-    'pdo_crashes':pdo_crashes, 'unknown_crashes':unknown_crashes, 'allinj_crashes':allinj_crashes,
-    'total_accounted_for':total_accounted_for, 'fi_accounted_for':fi_accounted_for, 'noreport_crashes':noreport_crashes})
+    'pdo_crashes':pdo_crashes, 'unknown_crashes':unknown_crashes, 'allinj_crashes':allinj_crashes,'noreport_crashes':noreport_crashes})
 
 class Echo:
     """An object that implements just the write method of the file-like
