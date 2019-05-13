@@ -88,7 +88,25 @@ def time_text(crash, n, state):
 
             else:
                 time[5] += 1
-                
+    
+    elif state in ['oregon']:
+
+        for t in crash[1][n+2]:
+            if int(t) in [99]:
+                time[5] += 1
+            elif int(t) < 6:
+                time[0] += 1
+            elif int(t) >= 6 and int(t) < 9:
+                time[1] += 1
+            elif int(t) >= 9 and int(t) < 15:
+                time[2] += 1
+            elif int(t) >= 15 and int(t) < 18:
+                time[3] += 1
+            elif int(t) >= 18 and int(t) < 24:
+                time[4] += 1
+            else:
+                time[5] += 1                  
+    
     elif state in ['washington']:
 
         for t in crash[1][n+2]:
@@ -161,7 +179,7 @@ def severity_var_text(crash, state):
         #Define list index based on number of severities above
         n = 6
 
-    elif state in ['colorado','nebraska', 'nevada']:
+    elif state in ['colorado','nebraska', 'nevada','oregon']:
         
         fatal_crashes = "Fatal = " + str(crash[1][1])
         injury = "All Injury = " + str(crash[1][2])
