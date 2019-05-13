@@ -21,7 +21,6 @@ def arrow_movements3():
 
     single_wbl = [patches.FancyArrowPatch( (0.65, 0.65), (-0.65, -0.65),connectionstyle="arc3,rad = 0.6", **kw)]
     single_wbr = [patches.FancyArrowPatch( (0.65, -0.65), (-0.65, 0.65),connectionstyle="arc3,rad = -0.6", **kw)]
-
     single_wbt = [patches.FancyArrowPatch( (0.75, 0), (-0.75, 0),**kw)]
     
     ebother_single = [patches.FancyArrowPatch( (-0.75, 0), (0.75, 0),**kw),
