@@ -22,8 +22,8 @@ def arrow_movements5():
     sbt_wbt = [patches.FancyArrowPatch( (-1.0, 0.75), (-1.0, -0.75),**kw),
                patches.FancyArrowPatch( (0.5, -0.75), (-1.0, -0.75),**kw)]
       
-    veh_movements = [ebt_nbt,ebt_nbt,ebt_wbt,nbt_sbt,nbt_wbt,sbt_wbt]
-    veh_dict = {'ebt/nbt':ebt_nbt,'ebt/nbt':ebt_nbt,'ebt/wbt':ebt_wbt,'nbt/sbt':nbt_sbt,\
+    veh_movements = [ebt_nbt,ebt_sbt,ebt_wbt,nbt_sbt,nbt_wbt,sbt_wbt]
+    veh_dict = {'ebt/nbt':ebt_nbt,'ebt/sbt':ebt_sbt,'ebt/wbt':ebt_wbt,'nbt/sbt':nbt_sbt,\
                 'nbt/wbt':nbt_wbt,'sbt/wbt':sbt_wbt}
 
     return (veh_movements, veh_dict)
