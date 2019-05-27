@@ -30,9 +30,9 @@ def plot_text(crash, state):
     i = 0
     while i < len(behavior):
         if behavior[i][0] == 'na':
-            behavior_list[i] = behavior[i][0].upper() + ' = ' + str(behavior[i][1])
+            behavior_list[i] = behavior[i][0].upper() + ' = ' + str(behavior[i][1]) + ' (' + "{:.0%}".format(behavior[i][1]/crash[1][0]) + ')'
         else:
-            behavior_list[i] = behavior[i][0].title() + ' = ' + str(behavior[i][1])
+            behavior_list[i] = behavior[i][0].title() + ' = ' + str(behavior[i][1]) + ' (' + "{:.0%}".format(behavior[i][1]/crash[1][0]) + ')'
         i += 1
 
     #Time of Day.......
@@ -41,12 +41,12 @@ def plot_text(crash, state):
     time = time_text(crash,n,state)
 
     #set up time variables for text box in diagram
-    mid_6_crashes = "12am - 6am = " + str(time[0])
-    six_9_crashes = "6am - 9am = " + str(time[1])
-    nine_3_crashes= "9am - 3pm = " + str(time[2])
-    three_6_crashes = "3pm - 6pm = " + str(time[3])
-    six_12_crashes = "6pm - 12am = " + str(time[4])
-    unknown_time = "Unknown = " + str(time[5])
+    mid_6_crashes = "12am - 6am = " + str(time[0]) + ' (' + "{:.0%}".format(time[0]/crash[1][0]) + ')'
+    six_9_crashes = "6am - 9am = " + str(time[1]) + ' (' + "{:.0%}".format(time[1]/crash[1][0]) + ')'
+    nine_3_crashes= "9am - 3pm = " + str(time[2]) + ' (' + "{:.0%}".format(time[2]/crash[1][0]) + ')'
+    three_6_crashes = "3pm - 6pm = " + str(time[3]) + ' (' + "{:.0%}".format(time[3]/crash[1][0]) + ')'
+    six_12_crashes = "6pm - 12am = " + str(time[4]) + ' (' + "{:.0%}".format(time[4]/crash[1][0]) + ')'
+    unknown_time = "Unknown = " + str(time[5]) + ' (' + "{:.0%}".format(time[5]/crash[1][0]) + ')'
         
     #WEATHER.......
     #Getting the most common crash weather for the vehicle movements
@@ -58,9 +58,9 @@ def plot_text(crash, state):
     i = 0
     while i < len(weather):
         if weather[i][0] == 'na':
-            weather_list[i] = weather[i][0].upper() + ' = ' + str(weather[i][1])
+            weather_list[i] = weather[i][0].upper() + ' = ' + str(weather[i][1]) + ' (' + "{:.0%}".format(weather[i][1]/crash[1][0]) + ')'
         else:
-            weather_list[i] = weather[i][0].title() + ' = ' + str(weather[i][1])
+            weather_list[i] = weather[i][0].title() + ' = ' + str(weather[i][1]) + ' (' + "{:.0%}".format(weather[i][1]/crash[1][0]) + ')'
         
         i += 1
 
@@ -75,9 +75,9 @@ def plot_text(crash, state):
     i = 0
     while i < len(light):
         if light[i][0] == 'na':
-            light_list[i] = light[i][0].upper() + ' = ' + str(light[i][1])
+            light_list[i] = light[i][0].upper() + ' = ' + str(light[i][1]) + ' (' + "{:.0%}".format(light[i][1]/crash[1][0]) + ')'
         else:
-            light_list[i] = light[i][0].title() + ' = ' + str(light[i][1])
+            light_list[i] = light[i][0].title() + ' = ' + str(light[i][1]) + ' (' + "{:.0%}".format(light[i][1]/crash[1][0]) + ')'
         
         i += 1
 
@@ -96,9 +96,9 @@ def plot_text(crash, state):
         i = 0
         while i < len(surf):
             if surf[i][0] == 'na':
-                surf_list[i] = surf[i][0].upper() + ' = ' + str(surf[i][1])
+                surf_list[i] = surf[i][0].upper() + ' = ' + str(surf[i][1]) + ' (' + "{:.0%}".format(surf[i][1]/crash[1][0]) + ')'
             else:
-                surf_list[i] = surf[i][0].title() + ' = ' + str(surf[i][1])                
+                surf_list[i] = surf[i][0].title() + ' = ' + str(surf[i][1]) + ' (' + "{:.0%}".format(surf[i][1]/crash[1][0]) + ')'                
             i += 1
         
     #Textbox vehicle movements, crash type, and total crashes at top of diagram        
