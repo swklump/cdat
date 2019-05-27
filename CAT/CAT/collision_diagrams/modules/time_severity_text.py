@@ -161,11 +161,11 @@ def severity_var_text(crash, state):
     n = 0
     if state in ['alaska']:
         #set up severity variables for text box in diagram
-        fatal_crashes = "Fatality = " + str(crash[1][1])
-        incapacitating = "Incapacitating Injury = " + str(crash[1][2])
-        possible_injury = "Possible Injury = " + str(crash[1][3])
-        property_damage_only = "Property Damage Only = " + str(crash[1][4])
-        unknown = "Unknown = " + str(crash[1][5])
+        fatal_crashes = "Fatality = " + str(crash[1][1]) + ' (' + "{:.0%}".format(crash[1][1]/crash[1][0]) + ')'
+        incapacitating = "Incapacitating Injury = " + str(crash[1][2]) + ' (' + "{:.0%}".format(crash[1][2]/crash[1][0]) + ')'
+        possible_injury = "Possible Injury = " + str(crash[1][3]) + ' (' + "{:.0%}".format(crash[1][3]/crash[1][0]) + ')'
+        property_damage_only = "Property Damage Only = " + str(crash[1][4]) + ' (' + "{:.0%}".format(crash[1][5]/crash[1][0]) + ')'
+        unknown = "Unknown = " + str(crash[1][5]) + ' (' + "{:.0%}".format(crash[1][5]/crash[1][0]) + ')'
 
         
         #text box crash severities in lower left corner
@@ -181,10 +181,10 @@ def severity_var_text(crash, state):
 
     elif state in ['colorado','nebraska', 'nevada','oregon']:
         
-        fatal_crashes = "Fatal = " + str(crash[1][1])
-        injury = "All Injury = " + str(crash[1][2])
-        property_damage_only = "Property Damage Only = " + str(crash[1][3])
-        unknown = "Unknown = " + str(crash[1][4])
+        fatal_crashes = "Fatal = " + str(crash[1][1]) + ' (' + "{:.0%}".format(crash[1][1]/crash[1][0]) + ')'
+        injury = "All Injury = " + str(crash[1][2]) + ' (' + "{:.0%}".format(crash[1][2]/crash[1][0]) + ')'
+        property_damage_only = "Property Damage Only = " + str(crash[1][3]) + ' (' + "{:.0%}".format(crash[1][3]/crash[1][0]) + ')'
+        unknown = "Unknown = " + str(crash[1][4]) + ' (' + "{:.0%}".format(crash[1][4]/crash[1][0]) + ')'
         
         plt.text(-4.8, -2.60, 'Crash Severity',weight = 'bold', fontsize=8)
         plt.text(-4.8, -2.85, fatal_crashes, fontsize=8)
@@ -196,11 +196,11 @@ def severity_var_text(crash, state):
 
     elif state in ['newyork']:
 
-        fatal_crashes = "Fatal = " + str(crash[1][1])
-        incapacitating = "All Injury = " + str(crash[1][2])
-        possible_injury = "Property Damage Only = " + str(crash[1][3])
-        property_damage_only = "Not-reportable = " + str(crash[1][4])
-        unknown = "Unknown = " + str(crash[1][5])
+        fatal_crashes = "Fatal = " + str(crash[1][1]) + ' (' + "{:.0%}".format(crash[1][1]/crash[1][0]) + ')'
+        incapacitating = "All Injury = " + str(crash[1][2]) + ' (' + "{:.0%}".format(crash[1][2]/crash[1][0]) + ')'
+        possible_injury = "Property Damage Only = " + str(crash[1][3]) + ' (' + "{:.0%}".format(crash[1][3]/crash[1][0]) + ')'
+        property_damage_only = "Not-reportable = " + str(crash[1][4]) + ' (' + "{:.0%}".format(crash[1][4]/crash[1][0]) + ')'
+        unknown = "Unknown = " + str(crash[1][5]) + ' (' + "{:.0%}".format(crash[1][5]/crash[1][0]) + ')'
 
         plt.text(-4.8, -2.60, 'Crash Severity',weight = 'bold', fontsize=8)
         plt.text(-4.8, -2.85, fatal_crashes, fontsize=8)
@@ -213,11 +213,11 @@ def severity_var_text(crash, state):
 
     elif state in ['florida','washington']:
 
-        fatal_crashes = "Fatal = " + str(crash[1][1])
-        incapacitating = "Serious Injury = " + str(crash[1][2])
-        possible_injury = "Evident/Possible Injury = " + str(crash[1][3])
-        property_damage_only = "Property Damage Only = " + str(crash[1][4])
-        unknown = "Unknown = " + str(crash[1][5])
+        fatal_crashes = "Fatal = " + str(crash[1][1]) + ' (' + "{:.0%}".format(crash[1][1]/crash[1][0]) + ')'
+        incapacitating = "Serious Injury = " + str(crash[1][2]) + ' (' + "{:.0%}".format(crash[1][2]/crash[1][0]) + ')'
+        possible_injury = "Evident/Possible Injury = " + str(crash[1][3]) + ' (' + "{:.0%}".format(crash[1][3]/crash[1][0]) + ')'
+        property_damage_only = "Property Damage Only = " + str(crash[1][4]) + ' (' + "{:.0%}".format(crash[1][4]/crash[1][0]) + ')'
+        unknown = "Unknown = " + str(crash[1][5]) + ' (' + "{:.0%}".format(crash[1][5]/crash[1][0]) + ')'
 
         plt.text(-4.8, -2.60, 'Crash Severity',weight = 'bold', fontsize=8)
         plt.text(-4.8, -2.85, fatal_crashes, fontsize=8)
