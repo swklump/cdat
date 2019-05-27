@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
 
 	{% if title %}
@@ -30,7 +30,7 @@
 	      </button>
 	      <div class="collapse navbar-collapse" id="navbarToggle">
 	        <div class="navbar-nav mr-auto">
-	          <!-- <a class="nav-item nav-link" href="{% url 'CDAT-home' %}">Home</a> -->
+	          <a class="nav-item nav-link" href="{% url 'CDAT-home' %}">Home</a>
 	          <a class="nav-item nav-link" href="{% url 'CDAT-analysis' %}">Crash Analysis</a>
 	          
 	        </div>
