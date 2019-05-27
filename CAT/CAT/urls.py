@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.analysis, name='CDAT-home'),
+    path('', views.home, name='CDAT-home'),
     path('analysis/', views.analysis, name='CDAT-analysis'),
     path('analysis/file', views.file_changed, name='CDAT-analysis-file'),
 
