@@ -191,7 +191,6 @@ def get_intersections(state, crash_filename):
 
     return intersections, junction_type, street, cross_street
 
-
 def create_diagrams(state, crash_filename, diagram_filter, user_intersection, sort_by, ped_bike_filter):
     intersections = get_intersections(state, crash_filename)
     junction_type = intersections[1]
@@ -231,7 +230,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'v2ActionPreaction',row)
                 prepare_lists(crash_types,'EveType',row)
                 prepare_lists(crash_severity,'AccSeverity',row)
-                prepare_lists(crash_behaviors,'v1HumanCirc',row,40)
+                prepare_lists(crash_behaviors,'v1HumanCirc',row,22)
                 prepare_lists(time_of_day,'AccTime',row)
                 prepare_lists(weather,'Weather',row,22)
                 prepare_lists(light_conditions,'Light',row,19)
@@ -250,7 +249,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'veh_move_2',row)
                 prepare_lists(crash_types,'acctype',row)
                 prepare_lists(crash_severity,'severity',row)
-                prepare_lists(crash_behaviors,'factor_1',row,40)
+                prepare_lists(crash_behaviors,'factor_1',row,22)
                 prepare_lists(time_of_day,'time',row)
                 prepare_lists(weather,'weather',row,22)
                 prepare_lists(light_conditions,'lighting',row,19)
@@ -276,7 +275,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'V2_VHCL_MOVE_CD',row)
                 prepare_lists(crash_types_temp,'IMPCT_TYP_CD',row)
                 prepare_lists(crash_severity,'ACCISEV',row)
-                prepare_lists(crash_behaviors_temp,'V1_FRST_DR_ACTN_CD',row,25)
+                prepare_lists(crash_behaviors_temp,'V1_FRST_DR_ACTN_CD',row,22)
                 prepare_lists(time_of_day,'EVNT_CRSH_TM',row)
                 prepare_lists(weather_temp,'EVNT_WTHR_COND_CD',row,22)
                 prepare_lists(light_conditions_temp,'LGHT_COND_CD',row,19)
@@ -423,7 +422,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'VEH_2_MVMT_DESC',row)
                 prepare_lists(crash_types,'ACC_TYPE_DESC',row)
                 prepare_lists(crash_severity,'POL_INC_CODE_DESC',row)
-                prepare_lists(crash_behaviors,'DRIV_1_CONT_CIRC_DESC',row,40)
+                prepare_lists(crash_behaviors,'DRIV_1_CONT_CIRC_DESC',row,22)
                 prepare_lists(time_of_day,'TOD',row)
                 prepare_lists(weather,'WEATHER_COND_DESC',row,22)
                 prepare_lists(light_conditions,'LIGHT_COND_DESC',row,19)
@@ -442,7 +441,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'V2 Action',row)
                 prepare_lists(crash_types,'Crash Type',row)
                 prepare_lists(crash_severity,'Crash Severity',row)
-                prepare_lists(crash_behaviors,'V1 Vehicle Factors',row,40)
+                prepare_lists(crash_behaviors,'V1 Vehicle Factors',row,22)
                 prepare_lists(time_of_day,'Crash Time',row)
                 prepare_lists(weather,'Weather',row,22)
                 prepare_lists(light_conditions,'Lighting',row,19)
@@ -460,7 +459,7 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'PRE_ACCD_ACTN_VEH2',row)
                 prepare_lists(crash_types,'Collision Type',row)
                 prepare_lists(crash_severity,'Severity',row)
-                prepare_lists(crash_behaviors,'Apparent Factor Veh 1',row,40)
+                prepare_lists(crash_behaviors,'Apparent Factor Veh 1',row,22)
                 prepare_lists(time_of_day,'Accd Time',row)
                 prepare_lists(weather,'Weather',row,22)
                 prepare_lists(light_conditions,'Light Condition',row,19)
@@ -479,11 +478,11 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'MVMNT_SHORT_DESC2',row)
                 prepare_lists(crash_types,'COLLIS_TYP_SHORT_DESC',row)
                 prepare_lists(crash_severity,'CRASH_SVRTY_SHORT_DESC',row)
-                prepare_lists(crash_behaviors,'CRASH_CAUSE_1_SHORT_DESC',row,40)
+                prepare_lists(crash_behaviors,'CRASH_CAUSE_1_SHORT_DESC',row,22)
                 prepare_lists(time_of_day,'CRASH_HR_NO',row)
                 prepare_lists(weather,'WTHR_COND_SHORT_DESC',row,22)
                 prepare_lists(light_conditions,'LGT_COND_SHORT_DESC',row,19)
-                prepare_lists(surf_conditions,'RD_SURF_SHORT_DESC',row,19)
+                prepare_lists(surf_conditions,'RD_SURF_SHORT_DESC',row,22)
                 prepare_lists(ped,'TOT_PED_CNT',row)
                 prepare_lists(bike,'TOT_PEDCYCL_CNT',row) 
 
@@ -498,11 +497,11 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
                 prepare_lists(veh2_act,'VEH 2 ACTION',row)
                 prepare_lists(crash_types,'FIRST COLLISION TYPE / OBJECT STRUCK',row)
                 prepare_lists(crash_severity,'MOST SEVERE INJURY TYPE',row)
-                prepare_lists(crash_behaviors,'VEH 1 MV DRIVER CONTRIBUTING CIRCUMSTANCE 1',row,40)
+                prepare_lists(crash_behaviors,'VEH 1 MV DRIVER CONTRIBUTING CIRCUMSTANCE 1',row,22)
                 prepare_lists(time_of_day,'24 HR TIME',row)
                 prepare_lists(weather,'WEATHER',row,22)
                 prepare_lists(light_conditions,'LIGHTING CONDITIONS',row,19)
-                prepare_lists(surf_conditions,'ROAD SURFACE CONDITIONS',row,19)
+                prepare_lists(surf_conditions,'ROAD SURFACE CONDITIONS',row,22)
                 prepare_lists(ped,'TZ Pedestrian Involved Indicator',row)
                 prepare_lists(bike,'TZ Pedacyclist Involved Indicator',row)
 
@@ -597,14 +596,12 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
     zs = zipfile.ZipFile(buf, mode='w')
     
     results = plot_loop(crashes_list,diagram_filter,state,ped_bike_filter, file_length, zs)
-    total_accounted_for = results[0]
-    fi_accounted_for = results[1] 
-    unknown_crashids = results[2]
-    unknown_crashnum = results[3]   
-    known_crashids = results[4]
     
-    total_accounted_for = "Total crashes accounted for in diagrams = " + str(total_accounted_for)
-    total_accounted_for = str.encode(total_accounted_for)
+    crashids = results[0]
+    
+    unknown_crashids = results[1]
+    
+    unknown_crashnum = len(unknown_crashids)
     
     unknown_crashnum = "\n Total unknown crashes = " + str(unknown_crashnum)
     unknown_crashnum = str.encode(unknown_crashnum)
@@ -616,19 +613,24 @@ def create_diagrams(state, crash_filename, diagram_filter, user_intersection, so
         zfm1.write(unk_ids)
     zfm1.write(b"\n")
     zfm1.write(unknown_crashnum)
-    zfm1.close()
+    zfm1.close()    
     
-    zfm2 = zs.open('total_accounted_for.txt', 'w')
-    zfm2.write(total_accounted_for)
-    zfm2.close()
-    
-    zfm3 = zs.open('known_crashids.txt', 'w')
-    k_ids = []
-    for crash in known_crashids:
-        k_ids=str.encode(crash+', ')
-        zfm3.write(k_ids)
-    zfm3.close()
+    i = 0
+    fig_num = 0
+    while i < len(crashids):
+        if len(crashids[i]) == 0:
+            pass
+        else:
+            zfmx = zs.open(str(fig_num) + 'crashids.txt', 'w')
+            k_ids = []
+            for crash in crashids[i]:
+                k_ids=str.encode(crash+', ')
+                zfmx.write(k_ids)
+            zfmx.close()
+            fig_num += 1
+        i += 1
     
     zs.close()
+    
 
     return buf
