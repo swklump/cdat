@@ -45,7 +45,7 @@ def analysis(request):
 
         state = request.POST['select_your_state'] 
         crash_file = request.FILES['choose_your_crash_file']
-        diagram_filter = request.POST['select_how_many_diagrams_to_create']
+        diagram_filter = request.POST['select_how_many_crashes_to_show']
         user_intersection = request.POST['select_your_intersection']
         sort_by = request.POST['sort_by']
         ped_bike_filter = request.POST['ped_bike_filter']
