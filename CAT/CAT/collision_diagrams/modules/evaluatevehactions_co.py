@@ -2,9 +2,31 @@
 #concatenated direction and veh action to the crash dictionary.
 #Example print: {{'crash1' : [ebl,wbl]}
 
+#Main function         
+def veh_dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,user_intersection,junction_type,street,cross_street):                                              
+    i = 0
+    if user_intersection == '_All Data':
+        while i < len(file_length):
+            dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i)
+            i += 1
+    elif user_intersection == '_All Intersections':
+        while i < len(file_length):
+            dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
+            i += 1
+    elif user_intersection == '_Segments Only':
+        while i < len(file_length):
+            dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
+            i += 1             
+    else:
+        while i < len(file_length):
+            dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type,user_intersection,street,cross_street)
+            i += 1
+    i = 0
+
+#User selects all data
 def dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i):
     
-    if veh_num_dir_to[i] in ['n','ne','nw']:
+    if veh_num_dir_to[i] in ['n']:
         if veh_num_action[i] == "making left turn":
             crash_set["Crash"+str(i+1)].append('ebl')            
         elif veh_num_action[i] == "making right turn":
@@ -17,7 +39,33 @@ def dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i):
         else:
             crash_set["Crash"+str(i+1)].append('nb other')
             
-    elif veh_num_dir_to[i] in ['s','sw','se']:
+    elif veh_num_dir_to[i] in ['ne']:
+        if veh_num_action[i] == "making left turn":
+            crash_set["Crash"+str(i+1)].append('sebl')            
+        elif veh_num_action[i] == "making right turn":
+            crash_set["Crash"+str(i+1)].append('nwbr')           
+        elif veh_num_action[i] == "going straight":
+            crash_set["Crash"+str(i+1)].append('nebt')            
+        elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+        "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+            crash_set["Crash"+str(i+1)].append('neb misc. action')            
+        else:
+            crash_set["Crash"+str(i+1)].append('neb other')  
+
+    elif veh_num_dir_to[i] in ['nw']:
+        if veh_num_action[i] == "making left turn":
+            crash_set["Crash"+str(i+1)].append('nebl')            
+        elif veh_num_action[i] == "making right turn":
+            crash_set["Crash"+str(i+1)].append('swbr')           
+        elif veh_num_action[i] == "going straight":
+            crash_set["Crash"+str(i+1)].append('nwbt')            
+        elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+        "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+            crash_set["Crash"+str(i+1)].append('nwb misc. action')            
+        else:
+            crash_set["Crash"+str(i+1)].append('nwb other')              
+            
+    elif veh_num_dir_to[i] in ['s']:
         if veh_num_action[i] == "making left turn":
             crash_set["Crash"+str(i+1)].append('wbl')            
         elif veh_num_action[i] == "making right turn":
@@ -29,6 +77,32 @@ def dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i):
             crash_set["Crash"+str(i+1)].append('sb misc. action')            
         else:
             crash_set["Crash"+str(i+1)].append('sb other')
+            
+    elif veh_num_dir_to[i] in ['se']:
+        if veh_num_action[i] == "making left turn":
+            crash_set["Crash"+str(i+1)].append('swbl')            
+        elif veh_num_action[i] == "making right turn":
+            crash_set["Crash"+str(i+1)].append('nebr')            
+        elif veh_num_action[i] == "going straight":
+            crash_set["Crash"+str(i+1)].append('sebt')            
+        elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+        "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+            crash_set["Crash"+str(i+1)].append('seb misc. action')            
+        else:
+            crash_set["Crash"+str(i+1)].append('seb other')
+
+    elif veh_num_dir_to[i] in ['sw']:
+        if veh_num_action[i] == "making left turn":
+            crash_set["Crash"+str(i+1)].append('nwbl')            
+        elif veh_num_action[i] == "making right turn":
+            crash_set["Crash"+str(i+1)].append('sebr')            
+        elif veh_num_action[i] == "going straight":
+            crash_set["Crash"+str(i+1)].append('swbt')            
+        elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+        "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+            crash_set["Crash"+str(i+1)].append('swb misc. action')            
+        else:
+            crash_set["Crash"+str(i+1)].append('swb other')            
             
     elif veh_num_dir_to[i] == 'e':
         if veh_num_action[i] == "making left turn":
@@ -62,11 +136,12 @@ def dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i):
     else:
         crash_set["Crash"+str(i+1)].append('unknown')        
 
+#User selects all intersections
 def dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type):
     
     if junction_type[i] in ['4-way intersection', 't - tntersection', 'y - intersection','roundabout']:
         
-        if veh_num_dir_to[i] in ['n','ne','nw']:
+        if veh_num_dir_to[i] in ['n']:
             if veh_num_action[i] == "making left turn":
                 crash_set["Crash"+str(i+1)].append('ebl')                
             elif veh_num_action[i] == "making right turn":
@@ -77,9 +152,35 @@ def dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_se
             "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
                 crash_set["Crash"+str(i+1)].append('nb misc. action')                
             else:
-                crash_set["Crash"+str(i+1)].append('nb other')                
+                crash_set["Crash"+str(i+1)].append('nb other') 
         
-        elif veh_num_dir_to[i] in ['s','sw','se']:
+        elif veh_num_dir_to[i] in ['ne']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('sebl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('nwbr')           
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('nebt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('neb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('neb other')  
+
+        elif veh_num_dir_to[i] in ['nw']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('nebl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('swbr')           
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('nwbt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('nwb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('nwb other')             
+        
+        elif veh_num_dir_to[i] in ['s']:
             if veh_num_action[i] == "making left turn":
                 crash_set["Crash"+str(i+1)].append('wbl')                
             elif veh_num_action[i] == "making right turn":
@@ -90,7 +191,33 @@ def dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_se
             "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
                 crash_set["Crash"+str(i+1)].append('sb misc. action')                
             else:
-                crash_set["Crash"+str(i+1)].append('sb other')                
+                crash_set["Crash"+str(i+1)].append('sb other') 
+
+        elif veh_num_dir_to[i] in ['se']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('swbl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('nebr')            
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('sebt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('seb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('seb other')
+
+        elif veh_num_dir_to[i] in ['sw']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('nwbl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('sebr')            
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('swbt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('swb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('swb other')                
         
         elif veh_num_dir_to[i] == 'e':
             if veh_num_action[i] == "making left turn":
@@ -126,11 +253,12 @@ def dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_se
     else:
         crash_set["Crash"+str(i+1)].append('not an intersection')
 
+#User selects all segments 
 def dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type):
     
     if junction_type[i] not in ['4-way intersection', 't - tntersection', 'y - intersection','roundabout']:
         
-        if veh_num_dir_to[i] in ['n','ne','nw']:
+        if veh_num_dir_to[i] in ['n']:
             if veh_num_action[i] == "making left turn":
                 crash_set["Crash"+str(i+1)].append('ebl')                
             elif veh_num_action[i] == "making right turn":
@@ -141,9 +269,35 @@ def dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,j
             "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
                 crash_set["Crash"+str(i+1)].append('nb misc. action')                
             else:
-                crash_set["Crash"+str(i+1)].append('nb other')                
+                crash_set["Crash"+str(i+1)].append('nb other')   
+
+        elif veh_num_dir_to[i] in ['ne']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('sebl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('nwbr')           
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('nebt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('neb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('neb other')  
+
+        elif veh_num_dir_to[i] in ['nw']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('nebl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('swbr')           
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('nwbt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('nwb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('nwb other')                  
         
-        elif veh_num_dir_to[i] in ['s','sw','se']:
+        elif veh_num_dir_to[i] in ['s']:
             if veh_num_action[i] == "making left turn":
                 crash_set["Crash"+str(i+1)].append('wbl')                
             elif veh_num_action[i] == "making right turn":
@@ -154,7 +308,33 @@ def dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,j
             "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
                 crash_set["Crash"+str(i+1)].append('sb misc. action')                
             else:
-                crash_set["Crash"+str(i+1)].append('sb other')                
+                crash_set["Crash"+str(i+1)].append('sb other')    
+
+        elif veh_num_dir_to[i] in ['se']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('swbl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('nebr')            
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('sebt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('seb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('seb other')
+
+        elif veh_num_dir_to[i] in ['sw']:
+            if veh_num_action[i] == "making left turn":
+                crash_set["Crash"+str(i+1)].append('nwbl')            
+            elif veh_num_action[i] == "making right turn":
+                crash_set["Crash"+str(i+1)].append('sebr')            
+            elif veh_num_action[i] == "going straight":
+                crash_set["Crash"+str(i+1)].append('swbt')            
+            elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+            "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                crash_set["Crash"+str(i+1)].append('swb misc. action')            
+            else:
+                crash_set["Crash"+str(i+1)].append('swb other')                
         
         elif veh_num_dir_to[i] == 'e':
             if veh_num_action[i] == "making left turn":
@@ -189,7 +369,8 @@ def dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,j
             crash_set["Crash"+str(i+1)].append('unknown')
     else:
         crash_set["Crash"+str(i+1)].append('is an intersection')
-        
+
+#User selects specific intersection            
 def dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type,user_intersection, street, cross_street):
 
     if junction_type[i] in ['4-way intersection', 't - tntersection', 'y - intersection','roundabout']:
@@ -200,7 +381,7 @@ def dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_s
         if intersection not in [user_intersection]:
             crash_set["Crash"+str(i+1)].append('not right intersection')
         else:
-            if veh_num_dir_to[i] in ['n','ne','nw']:
+            if veh_num_dir_to[i] in ['n']:
                 if veh_num_action[i] == "making left turn":
                     crash_set["Crash"+str(i+1)].append('ebl')                    
                 elif veh_num_action[i] == "making right turn":
@@ -213,7 +394,33 @@ def dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_s
                 else:
                     crash_set["Crash"+str(i+1)].append('nb other')
                     
-            elif veh_num_dir_to[i] in ['s','sw','se']:
+            if veh_num_dir_to[i] in ['ne']:
+                if veh_num_action[i] == "making left turn":
+                    crash_set["Crash"+str(i+1)].append('sebl')            
+                elif veh_num_action[i] == "making right turn":
+                    crash_set["Crash"+str(i+1)].append('nwbr')           
+                elif veh_num_action[i] == "going straight":
+                    crash_set["Crash"+str(i+1)].append('nebt')            
+                elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+                "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                    crash_set["Crash"+str(i+1)].append('neb misc. action')            
+                else:
+                    crash_set["Crash"+str(i+1)].append('neb other')  
+
+            elif veh_num_dir_to[i] in ['nw']:
+                if veh_num_action[i] == "making left turn":
+                    crash_set["Crash"+str(i+1)].append('nebl')            
+                elif veh_num_action[i] == "making right turn":
+                    crash_set["Crash"+str(i+1)].append('swbr')           
+                elif veh_num_action[i] == "going straight":
+                    crash_set["Crash"+str(i+1)].append('nwbt')            
+                elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+                "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                    crash_set["Crash"+str(i+1)].append('nwb misc. action')            
+                else:
+                    crash_set["Crash"+str(i+1)].append('nwb other')                      
+                    
+            elif veh_num_dir_to[i] in ['s']:
                 if veh_num_action[i] == "making left turn":
                     crash_set["Crash"+str(i+1)].append('wbl')                    
                 elif veh_num_action[i] == "making right turn":
@@ -225,6 +432,32 @@ def dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_s
                     crash_set["Crash"+str(i+1)].append('sb misc. action')                    
                 else:
                     crash_set["Crash"+str(i+1)].append('sb other')
+                    
+            elif veh_num_dir_to[i] in ['se']:
+                if veh_num_action[i] == "making left turn":
+                    crash_set["Crash"+str(i+1)].append('swbl')            
+                elif veh_num_action[i] == "making right turn":
+                    crash_set["Crash"+str(i+1)].append('nebr')            
+                elif veh_num_action[i] == "going straight":
+                    crash_set["Crash"+str(i+1)].append('sebt')            
+                elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+                "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                    crash_set["Crash"+str(i+1)].append('seb misc. action')            
+                else:
+                    crash_set["Crash"+str(i+1)].append('seb other')
+
+            elif veh_num_dir_to[i] in ['sw']:
+                if veh_num_action[i] == "making left turn":
+                    crash_set["Crash"+str(i+1)].append('nwbl')            
+                elif veh_num_action[i] == "making right turn":
+                    crash_set["Crash"+str(i+1)].append('sebr')            
+                elif veh_num_action[i] == "going straight":
+                    crash_set["Crash"+str(i+1)].append('swbt')            
+                elif veh_num_action[i] in ["slowing","stopped in traffic","making u-turn","passing","backing","entering/leaving parked position",
+                "parked","changing lanes","avoiding object in roadway","weaving","spun out of control","drove wrong way"]:
+                    crash_set["Crash"+str(i+1)].append('swb misc. action')            
+                else:
+                    crash_set["Crash"+str(i+1)].append('swb other')                     
                     
             elif veh_num_dir_to[i] == 'e':
                 if veh_num_action[i] == "making left turn":
@@ -258,28 +491,8 @@ def dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_s
             else:
                 crash_set["Crash"+str(i+1)].append('unknown')
     else:
-        crash_set["Crash"+str(i+1)].append('not an intersection')
-        
-def veh_dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,user_intersection,junction_type,street,cross_street):                                              
-    i = 0
-    if user_intersection == '_All Data':
-        while i < len(file_length):
-            dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i)
-            i += 1
-    elif user_intersection == '_All Intersections':
-        while i < len(file_length):
-            dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
-            i += 1
-    elif user_intersection == '_Segments Only':
-        while i < len(file_length):
-            dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
-            i += 1             
-    else:
-        while i < len(file_length):
-            dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type,user_intersection,street,cross_street)
-            i += 1
-    i = 0
-        
+        crash_set["Crash"+str(i+1)].append('not an intersection')        
+
 #Put crash movements as keys in dictionary and crash characteristics as values.
 def crashes_list(unique_movements, veh_movements, cr_severities, file_length, \
                  cr_types, cr_behaviors, cr_time, cr_weather, cr_light, cr_ids, cr_surf, sort_by):
