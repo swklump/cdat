@@ -4,9 +4,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.home, name='CDAT-home'),
-    path('analysis/', views.analysis, name='CDAT-analysis'),
-    path('analysis/file', views.file_changed, name='CDAT-analysis-file'),
+    path('', views.home, name='CAT-home'),
+    path('inputdata/', views.inputdata, name='CAT-inputdata'),
+    path('crashstatistics/', views.crashstatistics, name='CAT-crashstatistics'),
+    path('cmfoptimizer/', views.cmfoptimizer, name='CAT-cmfoptimizer'),
+    path('inputdata/file', views.file_changed, name='CAT-inputdata-file'),
 
 ]
 
