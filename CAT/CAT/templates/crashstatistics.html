@@ -1,0 +1,151 @@
+{% extends "base-crashstatistics.html" %}
+
+{% block content %}
+
+<h2>Crash Statistics Dashboard</h2>
+<p>Coming Soon!</p>
+
+<!-- Crash severity text -->
+<b>Crash Severity</b>
+<br>
+{% if state == 'alaska' or state == 'florida' or state == 'washington' %}
+    Total Crashes = {{ total_crashes }} 
+    <br>Fatal Crashes (K) = {{ fatal_crashes }} ({{percent_fatal_crashes}})
+    <br>Serious Injury Crashes (A) = {{ si_crashes }} ({{percent_si_crashes}})
+    <br>Evident Injury Crashes (B) = {{ evident_crashes }} ({{percent_evident_crashes}})
+    <br>Possible Injury Crashes (C) = {{ poss_crashes }} ({{percent_poss_crashes}})
+    <br>Property Damage Only Crashes (O) = {{ pdo_crashes }} ({{percent_pdo_crashes}})
+    <br>Unknown Crashes = {{ unknown_crashes }} ({{percent_unknown_crashes}})
+{% elif state == 'colorado' or state == 'nebraska' or state == 'nevada' %}
+    <li class="list-group-item list-group-item-light">Total Crashes = {{ total_crashes }}</li>
+    <!-- <li class="list-group-item list-group-item-light">Fatal Crashes (K) = {{ fatal_crashes }}</li> -->
+    <!-- <li class="list-group-item list-group-item-light">All Injury Crashes (A+B+C) = {{ allinj_crashes }}</li> -->
+    <!-- <li class="list-group-item list-group-item-light">Property Damage Only Crashes (O) = {{ pdo_crashes }}</li> -->
+    <!-- <li class="list-group-item list-group-item-light">Unknown Crashes = {{ unknown_crashes }}</li> -->
+{% elif state == 'newyork' %}
+    <li class="list-group-item list-group-item-light">Total Crashes = {{ total_crashes }}</li>
+    <!-- <li class="list-group-item list-group-item-light">Fatal Crashes (K) = {{ fatal_crashes }}</li> -->
+    <!-- <li class="list-group-item list-group-item-light">All Injury Crashes (A+B+C) = {{ allinj_crashes }}</li> -->
+    <!-- <li class="list-group-item list-group-item-light">Property Damage Only Crashes (O) = {{ pdo_crashes }}</li> -->
+    <!-- <li class="list-group-item list-group-item-light">Non-reportable Crashes = {{ noreport_crashes }}</li> -->
+    <!-- <li class="list-group-item list-group-item-light">Unknown Crashes = {{ unknown_crashes }}</li> -->
+
+{% endif %}
+</br>
+
+<!-- Crash severity graph -->
+<body>
+  <div id="container"></div>
+  <div style="position:relative;width:100%">
+    <div id="container" style="position:absolute;right:0px;top:0px;width: 800px; height: 5px;"></div>
+  </div>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script>
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Crashes by Severity'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Percentage',
+            colorByPoint: true,
+            data: [{
+                name: 'Fatal (K) Crashes',
+                y: {{ fatal_crashes }},
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Serious Injury (A) Crashes',
+                y: {{ si_crashes }},
+            }, {
+                name: 'Evident Injury (B) Crashes',
+                y: {{ evident_crashes }},
+            }, {
+                name: 'Possible Injury (C) Crashes',
+                y: {{ poss_crashes }},
+            }, {
+                name: 'Property Damage Only (O) Crashes',
+                y: {{ pdo_crashes }},
+            }, {
+                name: 'Unknown Crashes',
+                y: {{ unknown_crashes }}
+            }]
+        }]
+    });
+  </script>
+</body>
+</html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Django Highcharts Example</title>
+</head>
+<body>
+  <div id="container"></div>
+  <div style="position:relative;width:100%">
+    <div id="container" style="position:absolute;right:0px;top:0px;width: 800px; height: 5px;"></div>
+  </div>
+    <script type="text/javascript">
+      // barsVisualization must be global in our script tag to be able
+      // to get and set selection.
+      var barsVisualization;
+
+      function drawMouseoverVisualization() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Year');
+        data.addColumn('number', 'Score');
+        data.addRows([
+          ['2005',3.6],
+          ['2006',4.1],
+          ['2007',3.8],
+          ['2008',3.9],
+          ['2009',4.6]
+        ]);
+
+        barsVisualization = new google.visualization.ColumnChart(document.getElementById('mouseoverdiv'));
+        barsVisualization.draw(data, null);
+
+        // Add our over/out handlers.
+        google.visualization.events.addListener(barsVisualization, 'onmouseover', barMouseOver);
+        google.visualization.events.addListener(barsVisualization, 'onmouseout', barMouseOut);
+      }
+
+      function barMouseOver(e) {
+        barsVisualization.setSelection([e]);
+      }
+
+      function barMouseOut(e) {
+        barsVisualization.setSelection([{'row': null, 'column': null}]);
+      }
+
+    </script>
+  </script>
+</body>
+</html>
+{% endblock content %}
+
+
+
+
