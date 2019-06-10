@@ -1,5 +1,7 @@
 #Create text for time of day in plots. The syntax used for recording time of day
 #varies by state, so this is stored in the respective state file.
+
+#Assign text for time of day
 def time_text(crash, n, state):
 
     time = [0,0,0,0,0,0]
