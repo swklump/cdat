@@ -2,6 +2,28 @@
 #concatenated direction and veh action to the crash dictionary.
 #Example print: {{'crash1' : [ebl,wbl]}
 
+#Main function         
+def veh_dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,user_intersection,junction_type,street,cross_street):                                              
+    i = 0
+    if user_intersection == '_All Data':
+        while i < len(file_length):
+            dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i)
+            i += 1
+    elif user_intersection == '_All Intersections':
+        while i < len(file_length):
+            dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
+            i += 1
+    elif user_intersection == '_Segments Only':
+        while i < len(file_length):
+            dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
+            i += 1              
+    else:
+        while i < len(file_length):
+            dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type,user_intersection,street,cross_street)
+            i += 1
+    i = 0
+
+#User selects all data
 def dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i):
     
     if veh_num_dir_to[i] == 'north':
@@ -62,6 +84,7 @@ def dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i):
     else:
         crash_set["Crash"+str(i+1)].append('unknown')
 
+#User selects all intersections
 def dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type):
     
     if junction_type[i] in ['4-way intersection', 't - tntersection', 'y - intersection','roundabout']:
@@ -125,6 +148,7 @@ def dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_se
     else:
         crash_set["Crash"+str(i+1)].append('not an intersection')
 
+#User selects all segments 
 def dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type):
     
     if junction_type[i] not in ['4-way intersection', 't - tntersection', 'y - intersection','roundabout']:
@@ -187,7 +211,8 @@ def dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,j
             crash_set["Crash"+str(i+1)].append('unknown')
     else:
         crash_set["Crash"+str(i+1)].append('is an intersection')
-        
+
+#User selects specific intersection         
 def dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type,user_intersection, street, cross_street):
 
     if junction_type[i] in ['4-way intersection', 't - tntersection', 'y - intersection','roundabout']:
@@ -256,26 +281,6 @@ def dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_s
                 crash_set["Crash"+str(i+1)].append('unknown')
     else:
         crash_set["Crash"+str(i+1)].append('not an intersection')
-        
-def veh_dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,user_intersection,junction_type,street,cross_street):                                              
-    i = 0
-    if user_intersection == '_All Data':
-        while i < len(file_length):
-            dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i)
-            i += 1
-    elif user_intersection == '_All Intersections':
-        while i < len(file_length):
-            dir_act_all_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
-            i += 1
-    elif user_intersection == '_Segments Only':
-        while i < len(file_length):
-            dir_act_all_segments(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type)
-            i += 1              
-    else:
-        while i < len(file_length):
-            dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type,user_intersection,street,cross_street)
-            i += 1
-    i = 0
 
 #Put crash movements as keys in dictionary and crash characteristics as values.
 def crashes_list(unique_movements, veh_movements, cr_severities, file_length, \
