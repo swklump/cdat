@@ -8,5 +8,6 @@ setup(
     author='RoadSafetyEIT',
     author_email='samuel.klump@hdrinc.com',
     license='Creative Commons Attribution-Noncommercial-Share Alike license',
+    install_requires=['matplotlib'],
     long_description=open('README.txt').read(),
 )
