@@ -119,4 +119,4 @@ STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_ROOT = BASE_DIR
-MEDIA_URL = '/analysis/'
+MEDIA_URL = '/inputdata/'
