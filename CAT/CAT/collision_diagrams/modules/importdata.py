@@ -1,5 +1,6 @@
 #This function puts the columns in the crash csv file into columns for data manipulation
 
+#Lower case data
 def prepare_lists(data_list,col,row,length = ''):
     
     if length:
@@ -15,7 +16,7 @@ def prepare_lists(data_list,col,row,length = ''):
         else:
             data_list.append(row[col].lower())
 
-
+#Don't lower case data
 def prepare_lists_case(data_list,col,row):
     if row[col] == '':
         data_list.append('na')
