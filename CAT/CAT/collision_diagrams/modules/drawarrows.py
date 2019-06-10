@@ -128,3 +128,87 @@ def add_arrows_to_diagram_ped_bike(crash,x,y,move,zoom_factor):
                                                 connectionstyle="angle,angleA=0,angleB=90,rad=3"))
     #Plot arrows and save fig
     plt.gca().add_artist(ab) 
+    
+def circles_func():
+    import matplotlib.pyplot as plt
+    
+    circles = []        
+    circles.append(plt.Circle((-2.25,2.25),0.4,color='red',fill=False))
+    circles.append(plt.Circle((-4.5,2.25),0.4,color='black',fill=False))
+    
+    circles.append(plt.Circle((1.25,2.25),0.4,color='red',fill=False))
+    circles.append(plt.Circle((-1.25,2.25),0.4,color='black',fill=False))
+    
+    circles.append(plt.Circle((4.5,2.25),0.4,color='red',fill=False))
+    circles.append(plt.Circle((2.25,2.25),0.4,color='black',fill=False))
+    
+    
+    circles.append(plt.Circle((-2.25,-1.25),0.4,color='red',fill=False))
+    circles.append(plt.Circle((-4.5,-1.25),0.4,color='black',fill=False))
+    
+    circles.append(plt.Circle((1.25,-1.25),0.4,color='red',fill=False))
+    circles.append(plt.Circle((-1.25,-1.25),0.4,color='black',fill=False))
+    
+    circles.append(plt.Circle((4.5,-1.25),0.4,color='red',fill=False))
+    circles.append(plt.Circle((2.25,-1.25),0.4,color='black',fill=False))       
+    
+    
+    circles.append(plt.Circle((-2.25,-4.5),0.4,color='red',fill=False))
+    circles.append(plt.Circle((-4.5,-4.5),0.4,color='black',fill=False))
+    
+    circles.append(plt.Circle((1.25,-4.5),0.4,color='red',fill=False))
+    circles.append(plt.Circle((-1.25,-4.5),0.4,color='black',fill=False))
+    
+    circles.append(plt.Circle((4.5,-4.5),0.4,color='red',fill=False))
+    circles.append(plt.Circle((2.25,-4.5),0.4,color='black',fill=False))
+    
+    return circles    
+    
+def assign_arrows(crash,x,y,r): 
+    from .arrow_movements import arrow_movements, arrow_movements_misc_thru, arrow_movements_thru_thru,arrow_movements_misc_misc,arrow_movements_misc_other, arrow_movements_turning, arrow_movements_turning_bothturns, arrow_movements_turning_bothturns_opposite    
+    
+    if '/' in crash[0]:
+        index = crash[0].find('/')
+        if crash[0] in ['eb misc. action/ebt','eb other/ebt','nb misc. action/nbt','nb other/nbt',
+                        'sb misc. action/sbt','sb other/sbt','wb misc. action/wbt','wb other/wbt']:
+            arrow_movements = arrow_movements_misc_thru(x,y,r)
+        
+        elif crash[0] in ['eb misc. action/eb misc. action','eb other/eb other',
+                          'nb misc. action/nb misc. action','nb other/nb other',
+                          'sb misc. action/sb misc. action','sb other/sb other',
+                          'wb misc. action/wb misc. action','wb other/wb other']: 
+            arrow_movements = arrow_movements_misc_misc(x,y,r)
+                
+        elif crash[0] in ['eb misc. action/eb other','nb misc. action/nb other',
+                          'sb misc. action/sb other','wb misc. action/wb other']:
+            arrow_movements = arrow_movements_misc_other(x,y,r)                                
+            
+        elif crash[0] in ['ebt/ebt','nbt/nbt','sbt/sbt','wbt/wbt']: 
+            arrow_movements = arrow_movements_thru_thru(x,y,r)
+        
+        elif crash[0] in ['ebl/nbt','nbt/wbr','ebt/sbl','ebt/nbr','ebr/sbt','sbt/wbl','sbr/wbt','nbl/wbt',
+                          'ebl/nb misc. action','nb misc. action/wbr','eb misc. action/sbl','eb misc. action/nbr',
+                          'ebr/sb misc. action','sb misc. action/wbl','sbr/wb misc. action','nbl/wb misc. action',
+                          'ebl/nb other','nb other/wbr','eb other/sbl','eb other/nbr',
+                          'ebr/sb other','sb other/wbl','sbr/wb other','nbl/wb other']:
+            arrow_movements = arrow_movements_turning(x,y,r)
+        
+        elif crash[0] in ['ebl/ebl','ebr/ebr','nbl/nbl','nbr/nbr',
+                          'sbl/sbl','sbr/sbr','wbl/wbl','wbr/wbr']:
+            arrow_movements = arrow_movements_turning_bothturns(x,y,r)
+        
+        elif crash[0] in ['ebr/wbl','nbr/sbl','nbl/sbr','ebl/wbr']:
+            arrow_movements = arrow_movements_turning_bothturns_opposite(x,y,r)          
+        
+        else:
+            arrow_movements = arrow_movements(x,y,r)
+        
+    elif '(' in crash[0]:
+        if '(' == crash[0][0]:
+            index = crash[0].find(')')
+        else:
+            index = crash[0].find('(')
+            
+        arrow_movements = arrow_movements(x,y,r)      
+    
+    return arrow_movements, index    
