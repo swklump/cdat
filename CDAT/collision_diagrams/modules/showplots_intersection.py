@@ -246,12 +246,18 @@ def add_images_text_pedbike(crashes_list,zs,top_movements,n,ped_bike_filter,i,nu
                     elif state in ['colorado','nebraska', 'nevada','newyork','oregon']:
                         plt.text(4.5, -4.625, "{:.0%}".format((crashes_list[i][1][1]+crashes_list[i][1][2])/crashes_list[i][1][0]),horizontalalignment='center', fontsize=6)
                     x = i
-                n += 1
+                if crashes_list[i][0][0:index] in ['not right intersection','not an intersection'] or crashes_list[i][0][index+1:] in ['not right intersection','not an intersection']:
+                    pass
+                else:
+                    n += 1
             else:
                 if ped_bike_filter == 'pedestrian and bicyclist crashes only':
                     pass
                 else:
-                    n += 1
+                    if crashes_list[i][0][0:index] in ['not right intersection','not an intersection'] or crashes_list[i][0][index+1:] in ['not right intersection','not an intersection']:
+                        pass
+                    else:
+                        n += 1
             i += 1
     except IndexError:
         pass

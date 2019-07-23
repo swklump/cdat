@@ -87,7 +87,7 @@ def add_arrows_to_diagram_ped_bike(crash,x,y,move,zoom_factor):
     import os
     
     #Depending on how many arrows will be drawn
-    mpl.rcParams['examples.directory'] = os.getcwd() + "\CAT"
+    mpl.rcParams['examples.directory'] = os.getcwd() + "\CDAT"
     if 'bicyclist' in crash[0]:
         fn = get_sample_data('bike.png', asfileobj=False)
     else:
@@ -165,13 +165,22 @@ def circles_func():
     return circles    
     
 def assign_arrows(crash,x,y,r): 
-    from .arrow_movements import arrow_movements, arrow_movements_misc_thru, arrow_movements_thru_thru,arrow_movements_misc_misc,arrow_movements_misc_other, arrow_movements_turning, arrow_movements_turning_bothturns, arrow_movements_turning_bothturns_opposite    
+    from .arrow_movements import arrow_movements, arrow_movements_misc_thru, arrow_movements_thru_thru,\
+    arrow_movements_misc_misc,arrow_movements_misc_other, arrow_movements_turning, \
+    arrow_movements_turning_bothturns, arrow_movements_turning_bothturns_opposite
+
+    from .arrow_movements_nonstandard import arrow_movements_misc_thru_x, arrow_movements_thru_thru_x,\
+    arrow_movements_misc_misc_x, arrow_movements_misc_other_x, arrow_movements_turning_x, \
+    arrow_movements_turning_bothturns_x, arrow_movements_turning_bothturns_opposite_x
     
     if '/' in crash[0]:
         index = crash[0].find('/')
         if crash[0] in ['eb misc. action/ebt','eb other/ebt','nb misc. action/nbt','nb other/nbt',
                         'sb misc. action/sbt','sb other/sbt','wb misc. action/wbt','wb other/wbt']:
             arrow_movements = arrow_movements_misc_thru(x,y,r)
+        elif crash[0] in ['neb misc. action/nebt','neb other/nebt','nwb misc. action/nwbt','nwb other/nwbt',
+                        'seb misc. action/sebt','seb other/sebt','swb misc. action/swbt','swb other/swbt']:
+            arrow_movements = arrow_movements_misc_thru_x(x,y,r)        
         
         elif crash[0] in ['eb misc. action/eb misc. action','eb other/eb other',
                           'nb misc. action/nb misc. action','nb other/nb other',
@@ -185,6 +194,8 @@ def assign_arrows(crash,x,y,r):
             
         elif crash[0] in ['ebt/ebt','nbt/nbt','sbt/sbt','wbt/wbt']: 
             arrow_movements = arrow_movements_thru_thru(x,y,r)
+        elif crash[0] in ['nebt/nebt','nwbt/nwbt','sebt/sebt','nwbt/nwbt']: 
+            arrow_movements = arrow_movements_thru_thru_x(x,y,r)            
         
         elif crash[0] in ['ebl/nbt','nbt/wbr','ebt/sbl','ebt/nbr','ebr/sbt','sbt/wbl','sbr/wbt','nbl/wbt',
                           'ebl/nb misc. action','nb misc. action/wbr','eb misc. action/sbl','eb misc. action/nbr',
@@ -192,6 +203,8 @@ def assign_arrows(crash,x,y,r):
                           'ebl/nb other','nb other/wbr','eb other/sbl','eb other/nbr',
                           'ebr/sb other','sb other/wbl','sbr/wb other','nbl/wb other']:
             arrow_movements = arrow_movements_turning(x,y,r)
+        elif crash[0] in ['nwbt/swbr','nebr/sebt','sebt/swbl','nebl/nwbt','nebr/seb misc. action','nwbl/swbt']:#continue
+            arrow_movements = arrow_movements_turning_x(x,y,r)    
         
         elif crash[0] in ['ebl/ebl','ebr/ebr','nbl/nbl','nbr/nbr',
                           'sbl/sbl','sbr/sbr','wbl/wbl','wbr/wbr']:
@@ -200,6 +213,9 @@ def assign_arrows(crash,x,y,r):
         elif crash[0] in ['ebr/wbl','nbr/sbl','nbl/sbr','ebl/wbr']:
             arrow_movements = arrow_movements_turning_bothturns_opposite(x,y,r)          
         
+        elif crash[0] in ['not right intersection','not an intersection']:
+            pass
+    
         else:
             arrow_movements = arrow_movements(x,y,r)
         

@@ -7,7 +7,7 @@ def create_diagrams(state, crash_filename, user_intersection, sort_by, ped_bike_
     cross_street = intersections[3]
     
     import csv
-    from CAT.collision_diagrams.modules.importdata import prepare_lists #See module for comments
+    from CDAT.collision_diagrams.modules.importdata import prepare_lists #See module for comments
         
     file_length = []
     veh1_dir_to = []
@@ -321,7 +321,7 @@ def create_diagrams(state, crash_filename, user_intersection, sort_by, ped_bike_
 
     crash_ids = file_length
 
-    from CAT.collision_diagrams.modules.evaluatevehactions_functions import crash_dict, crash_characteristics,\
+    from CDAT.collision_diagrams.modules.evaluatevehactions_functions import crash_dict, crash_characteristics,\
          unique_movements
 
     #Create crash dictionary
@@ -330,21 +330,21 @@ def create_diagrams(state, crash_filename, user_intersection, sort_by, ped_bike_
     #Run 'evaluate vehicle actions' modules for selected state. Determines vehicles movements
     # and directions
     if state == 'alaska':
-        from CAT.collision_diagrams.modules.evaluatevehactions_ak import veh_dir_act, crashes_list
+        from CDAT.collision_diagrams.modules.evaluatevehactions_ak import veh_dir_act, crashes_list
     elif state == 'colorado':
-        from CAT.collision_diagrams.modules.evaluatevehactions_co import veh_dir_act, crashes_list        
+        from CDAT.collision_diagrams.modules.evaluatevehactions_co import veh_dir_act, crashes_list        
     elif state == 'florida':
-        from CAT.collision_diagrams.modules.evaluatevehactions_fl import veh_dir_act, crashes_list
+        from CDAT.collision_diagrams.modules.evaluatevehactions_fl import veh_dir_act, crashes_list
     elif state == 'nebraska':
-        from CAT.collision_diagrams.modules.evaluatevehactions_ne import veh_dir_act, crashes_list
+        from CDAT.collision_diagrams.modules.evaluatevehactions_ne import veh_dir_act, crashes_list
     elif state == 'nevada':
-        from CAT.collision_diagrams.modules.evaluatevehactions_nv import veh_dir_act, crashes_list
+        from CDAT.collision_diagrams.modules.evaluatevehactions_nv import veh_dir_act, crashes_list
     elif state == 'newyork':
-        from CAT.collision_diagrams.modules.evaluatevehactions_ny import veh_dir_act, crashes_list
+        from CDAT.collision_diagrams.modules.evaluatevehactions_ny import veh_dir_act, crashes_list
     elif state == 'oregon':
-        from CAT.collision_diagrams.modules.evaluatevehactions_or import veh_dir_act, crashes_list        
+        from CDAT.collision_diagrams.modules.evaluatevehactions_or import veh_dir_act, crashes_list        
     elif state == 'washington':
-        from CAT.collision_diagrams.modules.evaluatevehactions_wa import veh_dir_act, crashes_list
+        from CDAT.collision_diagrams.modules.evaluatevehactions_wa import veh_dir_act, crashes_list
 
     veh_dir_act(veh1_dir_to,veh1_act,file_length,crash_dict,user_intersection,junction_type,street,cross_street) #Vehicle 1
 
@@ -387,8 +387,8 @@ def create_diagrams(state, crash_filename, user_intersection, sort_by, ped_bike_
         crashes_list = crashes_list(unique_movements, veh_movements, cr_severities,
             file_length, cr_types, cr_behaviors, cr_time, cr_weather, cr_light, cr_ids, sort_by)
 
-    from CAT.collision_diagrams.modules.showplots import plot_loop
-    from CAT.collision_diagrams.modules.showplots_intersection import plot_loop_intersection
+    from CDAT.collision_diagrams.modules.showplots import plot_loop
+    from CDAT.collision_diagrams.modules.showplots_intersection import plot_loop_intersection
 
     #Create zipped stream to put images into
     import io
@@ -441,7 +441,7 @@ def create_diagrams(state, crash_filename, user_intersection, sort_by, ped_bike_
 def get_intersections(state, crash_filename):
     
     import csv
-    from CAT.collision_diagrams.modules.importdata import prepare_lists, prepare_lists_case #See module for comments
+    from CDAT.collision_diagrams.modules.importdata import prepare_lists, prepare_lists_case #See module for comments
     
     file_length = []
     junction_type = []

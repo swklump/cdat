@@ -40,7 +40,9 @@ def show_plots(crash,fig_number,state,diagram_total,crashids,unknown_crashids,zs
     arrow_plots = []
     temp_crashids = []
     
-    if crash[0][0:index] == crash[0][index+1:]:
+    if crash[0][0:index] in ['not right intersection','not an intersection'] or crash[0][index+1:] in ['not right intersection','not an intersection']:
+        pass
+    elif crash[0][0:index] == crash[0][index+1:]:
         for lookup, arrows in arrow_movements.items():                    
             if crash[0][0:index] == lookup:
                 for arr in arrows:
@@ -59,8 +61,11 @@ def show_plots(crash,fig_number,state,diagram_total,crashids,unknown_crashids,zs
                                 arrow_plots.append(arr)                              
         
     if crash[0][0:index] in ['pedestrian','bicyclist'] or crash[0][index+1:] in ['pedestrian','bicyclist']:
-        draw_arrows_ped_bike(fig_number,arrow_plots,crash,state,zs,0,0,0.5,0.156)
-        diagram_total += crash[1][0]
+        if crash[0][0:index] in ['not right intersection','not an intersection'] or crash[0][index+1:] in ['not right intersection','not an intersection']:
+            pass
+        else:
+            draw_arrows_ped_bike(fig_number,arrow_plots,crash,state,zs,0,0,0.5,0.156)
+            diagram_total += crash[1][0]
         
         fig_number += 1
         if state in ['alaska', 'florida', 'newyork','washington']:   
@@ -82,25 +87,28 @@ def show_plots(crash,fig_number,state,diagram_total,crashids,unknown_crashids,zs
     else:
         if ped_bike_filter == 'pedestrian and bicyclist crashes only':
             pass
-        else:                       
-            draw_arrows(fig_number,arrow_plots,crash,state,zs)
-            diagram_total += crash[1][0]
-            fig_number += 1
-            if state in ['alaska', 'florida', 'newyork','washington']:   
-                if 'unknown' in crash[0]:
+        else:   
+            if crash[0][0:index] in ['not right intersection','not an intersection'] or crash[0][index+1:] in ['not right intersection','not an intersection']:
+                pass
+            else:
+                draw_arrows(fig_number,arrow_plots,crash,state,zs)
+                diagram_total += crash[1][0]
+                fig_number += 1
+                if state in ['alaska', 'florida', 'newyork','washington']:   
+                    if 'unknown' in crash[0]:
+                        for k_crash in crash[1][11]:
+                            unknown_crashids.append(k_crash)
                     for k_crash in crash[1][11]:
-                        unknown_crashids.append(k_crash)
-                for k_crash in crash[1][11]:
-                    temp_crashids.append(k_crash)
-                    
-            elif state in ['nebraska','nevada','oregon']:
-                if 'unknown' in crash[0]:
+                        temp_crashids.append(k_crash)
+                        
+                elif state in ['nebraska','nevada','oregon']:
+                    if 'unknown' in crash[0]:
+                        for k_crash in crash[1][10]:
+                            unknown_crashids.append(k_crash)   
                     for k_crash in crash[1][10]:
-                        unknown_crashids.append(k_crash)   
-                for k_crash in crash[1][10]:
-                        temp_crashids.append(k_crash)                
-            elif state in ['colorado']:
-                pass #Colorado does not have crash IDS!
+                            temp_crashids.append(k_crash)                
+                elif state in ['colorado']:
+                    pass #Colorado does not have crash IDS!
     
     crashids.append(temp_crashids)
     
