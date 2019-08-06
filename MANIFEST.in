@@ -1,0 +1,12 @@
+include *.py
+include *.txt
+include *.gitignore
+include *.sqlite3
+include CDAT/templates/*.gitkeep
+include CDAT/static/*.gitkeep
+include CDAT/collision_diagrams/*.gitkeep
+include CDAT/collision_diagrams/modules/*.gitkeep
+include CDAT/*.gitkeep
+include CDAT/*.png
+include CDAT/templates/*.html
+include CDAT/static/*.css

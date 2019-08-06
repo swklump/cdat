@@ -80,7 +80,9 @@ def del_files():
     delete_files = glob.glob("*.*")
     delete_files.remove('db.sqlite3')
     delete_files.remove('manage.py')
-    # delete_files.remove('setup.py')
-    # delete_files.remove('README.txt')
+    delete_files.remove('setup.py')
+    delete_files.remove('README.txt')
+    delete_files.remove('MANIFEST.in')
+    delete_files.remove('.gitignore')
     for file in delete_files[:]:
         os.remove(file)
