@@ -1,1 +1,0 @@
-from CDAT import collision_diagrams
