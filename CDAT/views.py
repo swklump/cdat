@@ -18,7 +18,6 @@ def home(request):
 #also loads in the intersections from the crash file.
 def file_changed(request):
     if request.method == 'POST':
-        del_files()
 
         crash_file = request.FILES['choose_your_crash_file']
         state = request.POST['select_your_state']
