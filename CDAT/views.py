@@ -10,7 +10,7 @@ import zipfile
 
 #View for the home page
 def home(request):
-    del_files()
+    
     return render(request, 'home.html')
 
 @csrf_exempt
@@ -68,21 +68,5 @@ def inputdata(request):
         response['Content-Disposition'] = 'attachment; filename="diagrams.zip"'
         return response
 
-
-    # del_files()
-
     return render(request, 'inputdata.html')
         
-#Function to delete all files uploaded by user
-# def del_files():
-    # import os
-    # import glob
-    # delete_files = glob.glob("*.*")
-    # delete_files.remove('db.sqlite3')
-    # delete_files.remove('manage.py')
-    # delete_files.remove('setup.py')
-    # delete_files.remove('README.txt')
-    # delete_files.remove('MANIFEST.in')
-    # delete_files.remove('.gitignore')
-    # for file in delete_files[:]:
-        # os.remove(file)
