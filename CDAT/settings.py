@@ -54,7 +54,7 @@ ROOT_URLCONF = 'CDAT.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'CDAT','templates')]10,
+        'DIRS': [os.path.join(BASE_DIR,'CDAT','templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
