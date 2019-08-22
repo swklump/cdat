@@ -5,7 +5,7 @@ setup(
     version='0.7dev',
     packages=['CDAT','CDAT.collision_diagrams','CDAT.collision_diagrams.modules',],
     package_data={
-    'CDAT':['static/*.*','template/*.*']},
+    'CDAT':['static/*.*','templates/*.*']},
     url='http://HDRCDAT.com',
     author='RoadSafetyEIT',
     author_email='samuel.klump@hdrinc.com',
