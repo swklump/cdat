@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='HDR_CDAT',
-    version='0.4dev',
+    version='0.5dev',
     packages=['CDAT','CDAT.collision_diagrams','CDAT.collision_diagrams.modules',],
     url='http://HDRCDAT.com',
     author='RoadSafetyEIT',
