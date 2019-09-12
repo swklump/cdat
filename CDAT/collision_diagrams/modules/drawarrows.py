@@ -85,9 +85,9 @@ def add_arrows_to_diagram_ped_bike(crash,x,y,move,zoom_factor):
     from matplotlib.offsetbox import (TextArea, DrawingArea, OffsetImage,AnnotationBbox)
     import matplotlib as mpl
     import os
-    
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     #Depending on how many arrows will be drawn
-    mpl.rcParams['examples.directory'] = os.getcwd() + "\CDAT"
+    mpl.rcParams['examples.directory'] = BASE_DIR
     if 'bicyclist' in crash[0]:
         fn = get_sample_data('bike.png', asfileobj=False)
     else:

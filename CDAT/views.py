@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
@@ -8,6 +8,8 @@ import csv
 from django.http import StreamingHttpResponse, HttpResponse
 import zipfile
 import io
+from django.template import RequestContext
+
 
 #View for the home page
 def home(request):
@@ -40,7 +42,7 @@ def file_changed(request):
 
     else:
         state = ''
-
+#https://stackoverflow.com/questions/3197321/csrf-error-in-django
 #View for the input data page. Redirects user to the analysis they
 #select (download diagrams, crash statistics, or cmf optimizer).
 def inputdata(request):

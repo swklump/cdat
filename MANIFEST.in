@@ -7,6 +7,6 @@ include CDAT/static/*.gitkeep
 include CDAT/collision_diagrams/*.gitkeep
 include CDAT/collision_diagrams/modules/*.gitkeep
 include CDAT/*.gitkeep
-include CDAT/*.png
+include CDAT/collision_diagrams/*.png
 include CDAT/templates/*.html
 include CDAT/static/*.css
