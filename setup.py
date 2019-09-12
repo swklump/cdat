@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='HDR_CDAT',
-    version='1.0dev',
+    version='1.1dev',
     packages=['CDAT','CDAT.collision_diagrams','CDAT.collision_diagrams.modules',],
     package_data={
     'CDAT':['static/*.*','templates/*.*']},

@@ -13,8 +13,8 @@ CDAT\views.py
 CDAT\wsgi.py
 CDAT\collision_diagrams\.gitkeep
 CDAT\collision_diagrams\__init__.py
-CDAT\collision_diagrams\download_diagrams.py
 CDAT\collision_diagrams\bike.png
+CDAT\collision_diagrams\download_diagrams.py
 CDAT\collision_diagrams\pedestrian.png
 CDAT\collision_diagrams\modules\.gitkeep
 CDAT\collision_diagrams\modules\__init__.py
