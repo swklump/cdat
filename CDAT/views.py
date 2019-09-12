@@ -7,6 +7,7 @@ from CDAT.collision_diagrams.download_diagrams import create_diagrams, get_inter
 import csv
 from django.http import StreamingHttpResponse, HttpResponse
 import zipfile
+import io
 
 #View for the home page
 def home(request):
@@ -18,14 +19,12 @@ def home(request):
 #also loads in the intersections from the crash file.
 def file_changed(request):
     if request.method == 'POST':
-
-        crash_file = request.FILES['choose_your_crash_file']
-        state = request.POST['select_your_state']
-        fs = FileSystemStorage()#change to stream storage
-        fs.save(crash_file.name, crash_file)
-
+        crash_file = io.TextIOWrapper(request.FILES['choose_your_crash_file'].file,encoding='ascii')
+        crash_file.seek(0)
+        state = request.POST['select_your_state']     
+        
         try:
-            intersections = get_intersections(state, crash_file.name)
+            intersections = get_intersections(state, crash_file)
             
         except Exception as ex:
             return JsonResponse({'success': False, 'message': '\n An error occurred parsing the data file. '+ 
@@ -49,20 +48,15 @@ def inputdata(request):
     if request.method == "POST":
 
         state = request.POST['select_your_state']
-        crash_file = request.FILES['choose_your_crash_file']
+        crash_file = io.TextIOWrapper(request.FILES['choose_your_crash_file'].file,encoding='utf-8')
+        crash_file.seek(0)
+        
         user_intersection = request.POST['select_your_intersection']
         sort_by = request.POST['sort_by']
         ped_bike_filter = request.POST['ped_bike_filter']
-        fs = FileSystemStorage()
-        fs.save(crash_file.name, crash_file)
-
-        import os
-        import glob
-        buf = create_diagrams(state, crash_file.name, user_intersection, sort_by, ped_bike_filter)
+        
+        buf = create_diagrams(state, crash_file, user_intersection, sort_by, ped_bike_filter)
         buf.seek(0)
-        delete_files = glob.glob("*.csv")
-        for file in delete_files[:]:
-            os.remove(file)
         response = StreamingHttpResponse(buf,content_type="application/zip")
         response['Content-Disposition'] = 'attachment; filename="diagrams.zip"'
         return response

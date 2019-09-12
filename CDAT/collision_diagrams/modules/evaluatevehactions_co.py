@@ -21,11 +21,9 @@ def veh_dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,user_interse
         while i < len(file_length):
             dir_act_spec_intersections(veh_num_dir_to,veh_num_action,file_length,crash_set,i,junction_type,user_intersection,street,cross_street)
             i += 1
-    i = 0
 
 #User selects all data
 def dir_act(veh_num_dir_to,veh_num_action,file_length,crash_set,i):
-    
     if veh_num_dir_to[i] in ['n']:
         if veh_num_action[i] == "making left turn":
             crash_set["Crash"+str(i+1)].append('ebl')            
