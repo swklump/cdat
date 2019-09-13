@@ -45,6 +45,7 @@ def file_changed(request):
 #https://stackoverflow.com/questions/3197321/csrf-error-in-django
 #View for the input data page. Redirects user to the analysis they
 #select (download diagrams, crash statistics, or cmf optimizer).
+@csrf_exempt
 def inputdata(request):
 
     if request.method == "POST":

@@ -2,10 +2,10 @@ from distutils.core import setup
 
 setup(
     name='HDR_CDAT',
-    version='1.2dev',
+    version='1.3dev',
     packages=['CDAT','CDAT.collision_diagrams','CDAT.collision_diagrams.modules',],
     package_data={
-    'CDAT':['static/*.*','templates/*.*']},
+    'CDAT':['static/*.*','templates/*.*','*.png']},
     url='http://HDRCDAT.com',
     author='RoadSafetyEIT',
     author_email='samuel.klump@hdrinc.com',
