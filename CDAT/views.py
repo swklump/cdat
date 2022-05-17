@@ -1,15 +1,9 @@
-from django.shortcuts import render, redirect, render_to_response
-from django.contrib import messages
-from django.core.files.storage import FileSystemStorage
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from CDAT.collision_diagrams.download_diagrams import create_diagrams, get_intersections
-import csv
-from django.http import StreamingHttpResponse, HttpResponse
-import zipfile
+from django.http import StreamingHttpResponse
 import io
-from django.template import RequestContext
-
 
 #View for the home page
 def home(request):
@@ -21,7 +15,7 @@ def home(request):
 #also loads in the intersections from the crash file.
 def file_changed(request):
     if request.method == 'POST':
-        crash_file = io.TextIOWrapper(request.FILES['choose_your_crash_file'].file,encoding='ascii')
+        crash_file = io.TextIOWrapper(request.FILES['choose_your_crash_file'].file,encoding='utf8')
         crash_file.seek(0)
         state = request.POST['select_your_state']     
         
@@ -42,7 +36,7 @@ def file_changed(request):
 
     else:
         state = ''
-#https://stackoverflow.com/questions/3197321/csrf-error-in-django
+
 #View for the input data page. Redirects user to the analysis they
 #select (download diagrams, crash statistics, or cmf optimizer).
 @csrf_exempt

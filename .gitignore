@@ -1,2 +1,5 @@
-/StateCrashData
-/archive
+/dist
+/CDAT/config.py
+MANIFEST
+MANIFEST.in
+
